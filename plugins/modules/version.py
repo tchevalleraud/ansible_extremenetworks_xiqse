@@ -34,6 +34,7 @@ options:
       - Client ID for authentication.
     required: true
     type: str
+    no_log: true
   xiqse_secret:
     description:
       - Secret for authentication.
@@ -44,6 +45,9 @@ options:
     description:
       - Whether to verify the SSL certificate when using HTTPS.
       - Defaults to `true`, Set to `false` to disable verification (useful for self-signed certificates).
+    required: false
+    type: bool
+    default: true
 author:
   - Thibault Chevalleraud (@tchevalleraud)
 """
@@ -68,7 +72,6 @@ version:
   type: str
   sample: "24.10.12.14"
 """
-
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.utils import get_auth_token, query_graphql
