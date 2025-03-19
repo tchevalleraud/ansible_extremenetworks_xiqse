@@ -1,0 +1,14 @@
+namespace: tchevalleraud
+name: extremenetworks_xiqse
+version: "1.0.0"
+readme: README.md
+authors:
+  - Thibault Chevalleraud
+description: >
+  A collection of modules for managing your ExtremeCloudIQ - Site Engine
+license:
+  - "MIT"
+tags:
+  - networking
+dependencies: {}
+repository: https://github.com/tchevalleraud/ansible_extremenetworks_xiqse
