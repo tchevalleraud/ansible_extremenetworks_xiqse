@@ -11,13 +11,8 @@ description:
   - This module fetches the system version of XIQ-SE by querying the GraphQL  API.
   - It is compatible with ExtremeCloudIQ - Site Engine.
 extends_documentation_fragment:
-  - tchevalleraud.extremenetworks_xiqse.provider
-options:
-  timeout:
-    description:
-      - Connection timeout in seconds.
-    type: int
-    default: 30
+  - tchevalleraud.extremenetworks_xiqse.fragments.options_provider
+  - tchevalleraud.extremenetworks_xiqse.fragments.options_timeout
 """
 
 EXAMPLES = r"""
