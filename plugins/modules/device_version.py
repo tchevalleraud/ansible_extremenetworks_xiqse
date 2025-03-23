@@ -12,6 +12,11 @@ description:
 extends_documentation_fragment:
   - tchevalleraud.extremenetworks_xiqse.provider
 options:
+  ip_address:
+    description:
+      - Device IP Address
+    type: str
+    required: true
   timeout:
     description:
       - Connection timeout in seconds.
