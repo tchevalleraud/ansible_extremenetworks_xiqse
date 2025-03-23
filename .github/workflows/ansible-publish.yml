@@ -21,12 +21,14 @@ jobs:
         run: |
           pip install ansible ansible-lint
 
-      - name: Version
+      - name: Generate new version
         id: version
         uses: paulhatch/semantic-version@v5.4.0
 
-      - name: Print new version
-        run: echo "New version is ${{ steps.versioning.outputs.version }}"
+      - name: Print version
+        run: |
+          echo "New version is ${{ steps.versioning.outputs.version }}"
+          echo "Old version is ${{ steps.versioning.outputs.previous_version }}"
 
       - name: Replace README.md
         uses: richardrigutins/replace-in-files@v2
