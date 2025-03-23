@@ -31,7 +31,7 @@ You can also build it locally:
 ```bash
 git clone https://github.com/tchevalleraud/ansible_extremenetworks_xiqse
 ansible-galaxy collection build
-#ansible-galaxy collection install tchevalleraud-extremenetworks_xiqse-1.0.0.tar.gz
+ansible-galaxy collection install tchevalleraud-extremenetworks_xiqse-0.0.8.tar.gz
 ```
 
 ## Usage Examples
