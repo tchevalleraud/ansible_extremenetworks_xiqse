@@ -21,6 +21,13 @@ jobs:
         run: |
           pip install ansible ansible-lint
 
+      - name: Generate versions
+        uses: HardNorth/github-version-generate@v1.4.0
+        with:
+          version-source: file
+          version-file: gradle.properties
+          version-file-extraction-pattern: '(?<=version=).+'
+
       - name: Replace single file
         uses: richardrigutins/replace-in-files@v2
         with:
