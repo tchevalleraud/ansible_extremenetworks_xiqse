@@ -25,10 +25,17 @@ jobs:
         id: version
         uses: paulhatch/semantic-version@v5.4.0
 
-      - name: Replace single file
+      - name: Replace README.md
         uses: richardrigutins/replace-in-files@v2
         with:
           files: 'README.md'
+          search-text: 'x.x.x'
+          replacement-text: '${{ steps.versioning.outputs.version }}'
+
+      - name: Replace galaxy.yml
+        uses: richardrigutins/replace-in-files@v2
+        with:
+          files: 'galaxy.yml'
           search-text: 'x.x.x'
           replacement-text: '${{ steps.versioning.outputs.version }}'
 
