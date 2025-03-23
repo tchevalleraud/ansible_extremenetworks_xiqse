@@ -28,9 +28,9 @@ jobs:
           search-text: 'x.x.x'
           replacement-text: '1.0.0'
 
-        - uses: EndBug/add-and-commit@v9
-          with:
-            default_author: github_actions
+      - uses: EndBug/add-and-commit@v9
+        with:
+          default_author: github_actions
 
 #      - name: Build Ansible Collection
 #        run: |
