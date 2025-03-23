@@ -4,59 +4,14 @@
 DOCUMENTATION = r"""
 ---
 module: version
+author:
+  - Thibault Chevalleraud (@tchevalleraud)
 short_description: Retrieves the XIQ-SE system version
 description:
   - This module fetches the system version of XIQ-SE by querying the GraphQL  API.
   - It is compatible with ExtremeCloudIQ - Site Engine.
-options:
-  xiqse_protocol:
-    description:
-      - Protocol to use for API communication.
-      - Defaults to `"https"`, but can be set to `"http"` if needed.
-    required: false
-    type: str
-    default: "https"
-    choices: ["http", "https"]
-  xiqse_host:
-    description:
-      - IP address or hostname of XIQ-SE.
-    required: true
-    type: str
-  xiqse_port:
-    description:
-      - Port used for API communication.
-      - Defaults to `8443` for HTTPS.
-    required: false
-    type: int
-    default: 8443
-  xiqse_client:
-    description:
-      - Client ID for authentication.
-    required: true
-    type: str
-    no_log: true
-  xiqse_secret:
-    description:
-      - Secret for authentication.
-    required: true
-    type: str
-    no_log: true
-  xiqse_verify:
-    description:
-      - Whether to verify the SSL certificate when using HTTPS.
-      - Defaults to `true`, Set to `false` to disable verification (useful for self-signed certificates).
-    required: false
-    type: bool
-    default: true
-  timeout:
-    description:
-      - Timeout in seconds for the connection or command execution.
-      - Useful in case the target device is slow or unresponsive.
-    required: false
-    type: int
-    default: 30
-author:
-  - Thibault Chevalleraud (@tchevalleraud)
+extends_documentation_fragment:
+  - tchevalleraud.extremenetworks_xiqse.provider
 """
 
 EXAMPLES = r"""
