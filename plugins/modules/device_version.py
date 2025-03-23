@@ -67,7 +67,7 @@ def run_module():
         token = get_auth_token(xiqse_host, xiqse_client, xiqse_secret, xiqse_port, xiqse_protocol, xiqse_verify, timeout)
         result = query_graphql(xiqse_host, token, query, payload, xiqse_port, xiqse_protocol, xiqse_verify, timeout)
 
-        #version = result.get("data", {}).get("administration", {}).get("serverInfo", {}).get("version", "Unknown")
+        version = result.get("data", {}).get("network", {}).get("device", {}).get("firmware", "Unknown")
         module.exit_json(changed=False, version=result)
     except Exception as e:
         module.fail_json(msg=str(e))
