@@ -75,7 +75,7 @@ jobs:
         with:
           files: |
             README.md
-            Galaxy.yml
+            galaxy.yml
           search: '${{ steps.commits.outputs.tag }}'
           replace: '${{ steps.newversion.outputs.new }}'
 
