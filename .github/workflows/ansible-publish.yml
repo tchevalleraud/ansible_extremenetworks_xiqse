@@ -9,13 +9,13 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch all tags
-        run: git fetch --tags
-
       - name: Check out repository
         uses: actions/checkout@v3
         with:
           fetech-depth: 0
+      
+      - name: Fetch all tags
+        run: git fetch --tags
 
 #      - name: Set up Python
 #        uses: actions/setup-python@v4
