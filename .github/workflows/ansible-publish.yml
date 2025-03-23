@@ -24,6 +24,8 @@ jobs:
       - name: Generate new version
         id: version
         uses: paulhatch/semantic-version@v5.4.0
+        with:
+          tag_prefix: ""
 
       - name: Print version
         run: |
