@@ -23,9 +23,9 @@ options:
 EXAMPLES = r"""
 - name: Retrieve version via API
   version:
-    xiqse_host: "192.168.1.1"
-    xiqse_client: "RzNxMIxcj7"
-    xiqse_secret: "6758749e-2bf3-4b6b-925f-ba599179b5fe"
+    host: "192.168.1.1"
+    client_id: "RzNxMIxcj7"
+    client_secret: "6758749e-2bf3-4b6b-925f-ba599179b5fe"
   register: result
 
 - name: Display the version
