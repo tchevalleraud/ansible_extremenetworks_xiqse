@@ -72,7 +72,7 @@ def get_xiqse_provider_params():
         protocol        = dict(type="str", required=False, default="https"),
         host            = dict(type="str", required=True),
         port            = dict(type="int", required=False, default=8443),
-        client_id       = dict(type="str", required=True, no_log=True),
-        client_secret   = dict(type="str", required=True, no_log=True),
+        client_id       = dict(type="str", required=True, no_log=False),
+        client_secret   = dict(type="str", required=True, no_log=False),
         verify          = dict(type="bool", required=False, default=True),
     ))
