@@ -17,14 +17,14 @@ jobs:
       - name: Fetch all tags
         run: git fetch --tags
 
-#      - name: Set up Python
-#        uses: actions/setup-python@v4
-#        with:
-#          python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-#      - name: Install Ansible and dependencies
-#        run: |
-#          pip install ansible ansible-lint
+      - name: Install Ansible and dependencies
+        run: |
+          pip install ansible ansible-lint
 
       - name: Get last tag or fallback
         id: commits
@@ -72,9 +72,8 @@ jobs:
 
       - name: Show new version
         run: |
-          echo "🔖 New version is ${{ steps.newversion.outputs.newfull }}."
-          echo "🔖 New version is ${{ steps.newversion.outputs.newpure }}."
-          echo "Search version is ${{ steps.newversion.outputs.old }}."
+          echo "🔖 Git tag: ${{ steps.newversion.outputs.newfull }}"
+          echo "📦 Galaxy version: ${{ steps.newversion.outputs.newpure }}"
 
       - name: Replace version in README.md
         uses: richardrigutins/replace-in-files@v2
@@ -89,11 +88,6 @@ jobs:
           files: galaxy.yml
           search-text: '${{ steps.newversion.outputs.old }}'
           replacement-text: '${{ steps.newversion.outputs.newpure }}'
-
-      - name: Show Galaxy.yml content
-        run: |
-          echo "📄 Content of Galaxy.yml:"
-          cat galaxy.yml
 
       - uses: EndBug/add-and-commit@v9
         with:
