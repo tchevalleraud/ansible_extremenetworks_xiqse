@@ -64,11 +64,12 @@ jobs:
             minor) minor=$((minor+1)); patch=0 ;;
             patch) patch=$((patch+1)) ;;
           esac
-          new="v$major.$minor.$patch"
+          new="$major.$minor.$patch"
+          newfull="v$major.$minor.$patch"
           echo "new=$new" >> $GITHUB_OUTPUT
 
       - name: Show new version
-        run: echo "🔖 New version is ${{ steps.newversion.outputs.new }}"
+        run: echo "🔖 New version is ${{ steps.newversion.outputs.newfull }}"
 
       - name: Replace version in README.md and Galaxy.yml
         uses: richardrigutins/replace-in-files@v2
@@ -85,13 +86,13 @@ jobs:
           if git diff --cached --quiet; then
             echo "✅ No changes to commit."
           else
-            git commit -m "chore: bump version to ${{ steps.newversion.outputs.new }}"
+            git commit -m "chore: bump version to ${{ steps.newversion.outputs.newfull }}"
             git push origin main
           fi
 
       - name: Create new tag (if not exists)
         run: |
-          tag="${{ steps.newversion.outputs.new }}"
+          tag="${{ steps.newversion.outputs.newfull }}"
           if git rev-parse "$tag" >/dev/null 2>&1; then
             echo "⚠️ Tag $tag already exists. Skipping creation."
           else
