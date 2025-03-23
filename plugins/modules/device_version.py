@@ -9,8 +9,6 @@ author:
 short_description: TODO
 description:
   - TODO
-extends_documentation_fragment:
-  - tchevalleraud.extremenetworks_xiqse.provider
 options:
   ip_address:
     description:
