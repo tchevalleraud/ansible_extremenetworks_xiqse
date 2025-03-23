@@ -85,12 +85,13 @@ from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_util
 
 def run_module():
     module_args = dict(
-        xiqse_protocol  = dict(type="str", required=False, default="https"),
-        xiqse_host      = dict(type="str", required=True),
-        xiqse_port      = dict(type="int", required=False, default=8443),
-        xiqse_client    = dict(type="str", required=True, no_log=True),
-        xiqse_secret    = dict(type="str", required=True, no_log=True),
-        xiqse_verify    = dict(type="bool", required=False, default=True),
+        provider    = dict(type="dict", required=True, options=dict(
+            xiqse_protocol  = dict(type="str", required=False, default="https"),
+            xiqse_port      = dict(type="int", required=False, default=8443),
+            xiqse_client    = dict(type="str", required=True, no_log=True),
+            xiqse_secret    = dict(type="str", required=True, no_log=True),
+            xiqse_verify    = dict(type="bool", required=False, default=True),
+        )),
         timeout         = dict(type="int", required=False, default=30)
     )
 
@@ -99,13 +100,14 @@ def run_module():
         supports_check_mode=True
     )
 
-    xiqse_protocol  = module.params["xiqse_protocol"]
-    xiqse_host      = module.params["xiqse_host"]
-    xiqse_port      = module.params["xiqse_port"]
-    xiqse_client    = module.params["xiqse_client"]
-    xiqse_secret    = module.params["xiqse_secret"]
-    xiqse_verify    = module.params["xiqse_verify"]
-    timeout         = module.params["timeout"]
+    provider        = module.params["provider"]
+    xiqse_protocol  = provider["xiqse_protocol"]
+    xiqse_host      = provider["xiqse_host"]
+    xiqse_port      = provider["xiqse_port"]
+    xiqse_client    = provider["xiqse_client"]
+    xiqse_secret    = provider["xiqse_secret"]
+    xiqse_verify    = provider["xiqse_verify"]
+    timeout         = provider["timeout"]
 
     query = """
         query {
