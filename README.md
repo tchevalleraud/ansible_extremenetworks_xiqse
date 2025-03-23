@@ -4,7 +4,7 @@ This collection provides Ansible modules and roles to manage ExtremeCloudIQ - Si
 
 ## Overview
 
-This collection, currently in version 1.0.1, includes:
+This collection, currently in version 1.0.2, includes:
 
 - **Module** :
   - `mutation` : Executing a query type mutation
@@ -31,7 +31,7 @@ You can also build it locally:
 ```bash
 git clone https://github.com/tchevalleraud/ansible_extremenetworks_xiqse
 ansible-galaxy collection build
-ansible-galaxy collection install tchevalleraud-extremenetworks_xiqse-1.0.1.tar.gz
+ansible-galaxy collection install tchevalleraud-extremenetworks_xiqse-1.0.2.tar.gz
 ```
 
 ## Usage Examples
