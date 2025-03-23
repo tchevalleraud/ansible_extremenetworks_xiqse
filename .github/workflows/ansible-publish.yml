@@ -23,9 +23,11 @@ jobs:
 #        run: |
 #          pip install ansible ansible-lint
 
-      - name: Get last tag
+      - name: Get last tag or fallback
         id: lasttag
-        run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+        run: |
+          tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "tag=$tag" >> $GITHUB_OUTPUT
 
       - name: Get commits since last tag
         id: commits
@@ -47,6 +49,7 @@ jobs:
         id: newversion
         run: |
           old="${{ steps.lasttag.outputs.tag }}"
+          echo "🔍 Last tag: $old"
           old=${old#v}
           IFS='.' read -r major minor patch <<< "$old"
           case "${{ steps.bump.outputs.bump }}" in
