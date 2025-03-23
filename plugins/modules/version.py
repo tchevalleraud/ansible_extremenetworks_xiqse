@@ -24,9 +24,9 @@ EXAMPLES = r"""
 - name: Retrieve version via API
   tchevalleraud.extremenetworks_xiqse.version:
     provider:
-        host: "192.168.1.1"
-        client_id: "RzNxMIxcj7"
-        client_secret: "6758749e-2bf3-4b6b-925f-ba599179b5fe"
+      host: "192.168.1.1"
+      client_id: "RzNxMIxcj7"
+      client_secret: "6758749e-2bf3-4b6b-925f-ba599179b5fe"
   register: result
 
 - name: Display the version
@@ -36,7 +36,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 version:
-  description: Detected device version.
+  description: Detected xiqse version.
   returned: always
   type: str
   sample: "24.10.12.14"

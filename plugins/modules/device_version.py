@@ -19,6 +19,29 @@ options:
     default: 30
 """
 
+EXAMPLES = r"""
+- name: Retrieve device version via API
+  tchevalleraud.extremenetworks_xiase.device_version:
+    ip_address: "10.0.0.1"
+    provider:
+      host: "192.168.1.1"
+      client_id: "RzNxMIxcj7"
+      client_secret: "6758749e-2bf3-4b6b-925f-ba599179b5fe"
+  register: result
+
+- name: Display the version
+  ansible.builtin.debug:
+    msg: "Device version: {{ result.version }}"
+"""
+
+RETURN = r"""
+version:
+  description: Detected device version.
+  returned: always
+  type: str
+  sample: "9.1.1.0_B008"
+"""
+
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.utils import get_auth_token, query_graphql
 
@@ -68,7 +91,7 @@ def run_module():
         result = query_graphql(xiqse_host, token, query, payload, xiqse_port, xiqse_protocol, xiqse_verify, timeout)
 
         version = result.get("data", {}).get("network", {}).get("device", {}).get("firmware", "Unknown")
-        module.exit_json(changed=False, version=result)
+        module.exit_json(changed=False, version=version)
     except Exception as e:
         module.fail_json(msg=str(e))
 
