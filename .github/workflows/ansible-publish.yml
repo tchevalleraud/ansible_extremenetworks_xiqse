@@ -82,7 +82,7 @@ jobs:
           files: |
             README.md
             galaxy.yml
-          search: '${{ steps.commits.outputs.tag }}'
+          search: '${{ steps.newversion.outputs.old }}'
           replace: '${{ steps.newversion.outputs.newpure }}'
 
       - name: Commit and push updated files
