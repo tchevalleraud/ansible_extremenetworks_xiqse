@@ -76,17 +76,12 @@ jobs:
           echo "🔖 New version is ${{ steps.newversion.outputs.newpure }}."
           echo "Search version is ${{ steps.newversion.outputs.old }}."
 
-      - name: Replace version in README.md
+      - name: Replace version in README.md and Galaxy.yml
         uses: richardrigutins/replace-in-files@v2
         with:
-          files: README.md
-          search-text: '${{ steps.newversion.outputs.old }}'
-          replacement-text: '${{ steps.newversion.outputs.newpure }}'
-
-      - name: Replace version in galaxy.yml
-        uses: richardrigutins/replace-in-files@v2
-        with:
-          files: galaxy.yml
+          files: |
+            README.md
+            galaxy.yml
           search-text: '${{ steps.newversion.outputs.old }}'
           replacement-text: '${{ steps.newversion.outputs.newpure }}'
 
@@ -99,16 +94,16 @@ jobs:
         with:
           default_author: github_actions
 
-#      - name: Create new tag (if not exists)
-#        run: |
-#          tag="${{ steps.newversion.outputs.newfull }}"
-#          if git rev-parse "$tag" >/dev/null 2>&1; then
-#            echo "⚠️ Tag $tag already exists. Skipping creation."
-#          else
-#            git tag "$tag"
-#            git push origin "$tag"
-#            echo "🏷️ Created and pushed tag $tag"
-#          fi
+      - name: Create new tag (if not exists)
+        run: |
+          tag="${{ steps.newversion.outputs.newfull }}"
+          if git rev-parse "$tag" >/dev/null 2>&1; then
+            echo "⚠️ Tag $tag already exists. Skipping creation."
+          else
+            git tag "$tag"
+            git push origin "$tag"
+            echo "🏷️ Created and pushed tag $tag"
+          fi
 
 #      - name: Build Ansible Collection
 #        run: |
