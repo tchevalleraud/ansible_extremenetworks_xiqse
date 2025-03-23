@@ -21,17 +21,16 @@ jobs:
         run: |
           pip install ansible ansible-lint
 
-      - id: bump
-        uses: zwaldowski/match-label-action@v4
-        with:
-          allowed: major,minor,patch
+      - name: Version
+        id: version
+        uses: paulhatch/semantic-version@v5.4.0
 
       - name: Replace single file
         uses: richardrigutins/replace-in-files@v2
         with:
           files: 'README.md'
           search-text: 'x.x.x'
-          replacement-text: ${{ steps.bump.outputs.match }}
+          replacement-text: '${{ steps.versioning.outputs.version }}'
 
       - uses: EndBug/add-and-commit@v9
         with:
