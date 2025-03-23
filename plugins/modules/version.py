@@ -43,18 +43,12 @@ version:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.utils import get_auth_token, query_graphql
+from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.utils import XIQSE
+from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.utils import get_xiqse_provider_params
 
 def run_module():
     module_args = dict(
-        provider    = dict(type="dict", required=True, options=dict(
-            protocol        = dict(type="str", required=False, default="https"),
-            host            = dict(type="str", required=True),
-            port            = dict(type="int", required=False, default=8443),
-            client_id       = dict(type="str", required=True, no_log=True),
-            client_secret   = dict(type="str", required=True, no_log=True),
-            verify          = dict(type="bool", required=False, default=True),
-        )),
+        provider    = get_xiqse_provider_params(),
         timeout     = dict(type="int", required=False, default=30)
     )
 
