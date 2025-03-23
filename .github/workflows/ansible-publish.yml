@@ -85,6 +85,11 @@ jobs:
           search: '${{ steps.newversion.outputs.old }}'
           replace: '${{ steps.newversion.outputs.newpure }}'
 
+      - name: Show Galaxy.yml content
+        run: |
+          echo "📄 Content of Galaxy.yml:"
+          cat galaxy.yml
+
       - name: Commit and push updated files
         run: |
           git add README.md galaxy.yml
