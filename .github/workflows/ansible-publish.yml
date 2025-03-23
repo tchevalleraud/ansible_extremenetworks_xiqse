@@ -104,6 +104,19 @@ jobs:
             echo "🏷️ Created and pushed tag $tag"
           fi
 
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.newversion.outputs.newfull }}
+          release_name: Release ${{ steps.newversion.outputs.newfull }}
+          body: |
+            Changelog:
+
+            ${{ steps.commits.outputs.commits }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
 #      - name: Build Ansible Collection
 #        run: |
 #          ansible-galaxy collection build --output-path ./dist
