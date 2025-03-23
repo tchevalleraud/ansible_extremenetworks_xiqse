@@ -43,9 +43,4 @@ class ModuleDocFragment:
               - Whether to validate the SSL certificate.
             type: bool
             default: true
-          timeout:
-            description:
-              - Connection timeout in seconds.
-            type: int
-            default: 30
     """

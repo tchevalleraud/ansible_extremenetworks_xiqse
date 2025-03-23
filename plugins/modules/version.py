@@ -12,6 +12,12 @@ description:
   - It is compatible with ExtremeCloudIQ - Site Engine.
 extends_documentation_fragment:
   - tchevalleraud.extremenetworks_xiqse.provider
+options:
+  timeout:
+    description:
+      - Connection timeout in seconds.
+    type: int
+    default: 30
 """
 
 EXAMPLES = r"""
@@ -41,11 +47,12 @@ from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_util
 def run_module():
     module_args = dict(
         provider    = dict(type="dict", required=True, options=dict(
-            xiqse_protocol  = dict(type="str", required=False, default="https"),
-            xiqse_port      = dict(type="int", required=False, default=8443),
-            xiqse_client    = dict(type="str", required=True, no_log=True),
-            xiqse_secret    = dict(type="str", required=True, no_log=True),
-            xiqse_verify    = dict(type="bool", required=False, default=True),
+            protocol        = dict(type="str", required=False, default="https"),
+            host            = dict(type="str", required=True),
+            port            = dict(type="int", required=False, default=8443),
+            client_id       = dict(type="str", required=True, no_log=True),
+            client_secret   = dict(type="str", required=True, no_log=True),
+            verify          = dict(type="bool", required=False, default=True),
         )),
         timeout         = dict(type="int", required=False, default=30)
     )
@@ -56,13 +63,13 @@ def run_module():
     )
 
     provider        = module.params["provider"]
-    xiqse_protocol  = provider["xiqse_protocol"]
-    xiqse_host      = provider["xiqse_host"]
-    xiqse_port      = provider["xiqse_port"]
-    xiqse_client    = provider["xiqse_client"]
-    xiqse_secret    = provider["xiqse_secret"]
-    xiqse_verify    = provider["xiqse_verify"]
-    timeout         = provider["timeout"]
+    xiqse_protocol  = provider["protocol"]
+    xiqse_host      = provider["host"]
+    xiqse_port      = provider["port"]
+    xiqse_client    = provider["client_id"]
+    xiqse_secret    = provider["client_secret"]
+    xiqse_verify    = provider["verify"]
+    timeout         = module.params["timeout"]
 
     query = """
         query {
