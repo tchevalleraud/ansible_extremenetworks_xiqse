@@ -11,44 +11,54 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          fetech-depth: 0
 
-      - name: Install Ansible and dependencies
+#      - name: Set up Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: '3.x'
+
+#      - name: Install Ansible and dependencies
+#        run: |
+#          pip install ansible ansible-lint
+
+      - name: Get last tag
+        id: lasttag
+        run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+
+      - name: Get commits since last tag
+        id: commits
         run: |
-          pip install ansible ansible-lint
+          commits=$(git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:"%s")
+          echo "commits<<EOF" >> $GITHUB_OUTPUT
+          echo "$commits" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Generate new version
-        id: version
-        uses: paulhatch/semantic-version@v5.4.0
-        with:
-          tag_prefix: ""
-
-      - name: Print version
+      - name: Determine version bump
+        id: bump
         run: |
-          echo "New version is ${{ steps.versioning.outputs.version }}"
-          echo "Old version is ${{ steps.versioning.outputs.previous_version }}"
+          bump="patch"
+          echo "${{ steps.commits.outputs.commits }}" | grep -q 'BREAKING CHANGE\|!:' && bump="major"
+          echo "${{ steps.commits.outputs.commits }}" | grep -q '^feat:' && bump="minor"
+          echo "bump=$bump" >> $GITHUB_OUTPUT
 
-      - name: Replace README.md
-        uses: richardrigutins/replace-in-files@v2
-        with:
-          files: 'README.md'
-          search-text: 'x.x.x'
-          replacement-text: '${{ steps.versioning.outputs.version }}'
+      - name: Calculate new version
+        id: newversion
+        run: |
+          old="${{ steps.lasttag.outputs.tag }}"
+          old=${old#v}
+          IFS='.' read -r major minor patch <<< "$old"
+          case "${{ steps.bump.outputs.bump }}" in
+            major) major=$((major+1)); minor=0; patch=0 ;;
+            minor) minor=$((minor+1)); patch=0 ;;
+            patch) patch=$((patch+1)) ;;
+          esac
+          new="v$major.$minor.$patch"
+          echo "new=$new" >> $GITHUB_OUTPUT
 
-      - name: Replace galaxy.yml
-        uses: richardrigutins/replace-in-files@v2
-        with:
-          files: 'galaxy.yml'
-          search-text: 'x.x.x'
-          replacement-text: '${{ steps.versioning.outputs.version }}'
-
-      - uses: EndBug/add-and-commit@v9
-        with:
-          default_author: github_actions
+      - name: Show new version
+        run: echo "🔖 New version is ${{ steps.newversion.outputs.new }}"
 
 #      - name: Build Ansible Collection
 #        run: |
