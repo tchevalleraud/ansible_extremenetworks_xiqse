@@ -75,6 +75,11 @@ jobs:
           echo "🔖 New version will be ${{ steps.commits.outputs.tag }}"
           echo "🔖 Old version will be ${{ steps.newversion.outputs.new }}"
 
+      - name: Create new tag
+        run: |
+          git tag ${{ steps.newversion.outputs.new }}
+          git push origin ${{ steps.newversion.outputs.new }}
+
 #      - name: Build Ansible Collection
 #        run: |
 #          ansible-galaxy collection build --output-path ./dist
