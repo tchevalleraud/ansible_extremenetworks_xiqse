@@ -72,15 +72,15 @@ jobs:
 
       - name: Show new version
         run: |
-          echo "🔖 New version is ${{ steps.newversion.outputs.newfull }}"
-          echo "🔖 New version is ${{ steps.newversion.outputs.newpure }}"
-          echo "Search version is ${{ steps.newversion.outputs.old }}"
+          echo "🔖 New version is ${{ steps.newversion.outputs.newfull }}."
+          echo "🔖 New version is ${{ steps.newversion.outputs.newpure }}."
+          echo "Search version is ${{ steps.newversion.outputs.old }}."
 
       - name: Replace version in README.md and Galaxy.yml
         uses: richardrigutins/replace-in-files@v2
         with:
           files: galaxy.yml
-          search-text: '0.0.4'
+          search-text: '${{ steps.newversion.outputs.old }}'
           replacement-text: '0.0.5'
 
       - name: Show Galaxy.yml content
