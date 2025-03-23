@@ -69,6 +69,7 @@ def run_module():
     }
 
     try:
+        module.exit_json(changed=False, version=query)
         token = get_auth_token(xiqse_host, xiqse_client, xiqse_secret, xiqse_port, xiqse_protocol, xiqse_verify, timeout)
         result = query_graphql(xiqse_host, token, query, payload, xiqse_port, xiqse_protocol, xiqse_verify, timeout)
 
