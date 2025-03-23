@@ -79,6 +79,7 @@ def run_module():
             validate_certs=provider["verify"],
             timeout=timeout
         )
+        token = xiqse.authenticate()
         result = xiqse.graphql(query)
 
         version = result.get("data", {}).get("administration", {}).get("serverInfo", {}).get("version", "Unknown")
