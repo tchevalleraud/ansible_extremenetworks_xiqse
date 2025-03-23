@@ -81,22 +81,16 @@ jobs:
         with:
           files: galaxy.yml
           search-text: '${{ steps.newversion.outputs.old }}'
-          replacement-text: '0.0.5'
+          replacement-text: '${{ steps.newversion.outputs.newpure }}'
 
       - name: Show Galaxy.yml content
         run: |
           echo "📄 Content of Galaxy.yml:"
           cat galaxy.yml
 
-      - name: Commit and push updated files
-        run: |
-          git add README.md galaxy.yml
-          if git diff --cached --quiet; then
-            echo "✅ No changes to commit."
-          else
-            git commit -m "chore: bump version to ${{ steps.newversion.outputs.newfull }}"
-            git push origin main
-          fi
+      - uses: EndBug/add-and-commit@v9
+        with:
+          default_author: github_actions
 
 #      - name: Create new tag (if not exists)
 #        run: |
