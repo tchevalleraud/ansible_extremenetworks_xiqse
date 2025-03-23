@@ -48,6 +48,13 @@ options:
     required: false
     type: bool
     default: true
+  timeout:
+    description:
+      - Timeout in seconds for the connection or command execution.
+      - Useful in case the target device is slow or unresponsive.
+    required: false
+    type: int
+    default: 30
 author:
   - Thibault Chevalleraud (@tchevalleraud)
 """
