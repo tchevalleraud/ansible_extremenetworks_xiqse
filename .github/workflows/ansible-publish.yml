@@ -64,9 +64,10 @@ jobs:
             minor) minor=$((minor+1)); patch=0 ;;
             patch) patch=$((patch+1)) ;;
           esac
-          new="$major.$minor.$patch"
           newfull="v$major.$minor.$patch"
-          echo "new=$new" >> $GITHUB_OUTPUT
+          newpure="$major.$minor.$patch"
+          echo "newfull=$newfull" >> $GITHUB_OUTPUT
+          echo "newpure=$newpure" >> $GITHUB_OUTPUT
 
       - name: Show new version
         run: echo "🔖 New version is ${{ steps.newversion.outputs.newfull }}"
@@ -78,7 +79,7 @@ jobs:
             README.md
             galaxy.yml
           search: '${{ steps.commits.outputs.tag }}'
-          replace: '${{ steps.newversion.outputs.new }}'
+          replace: '${{ steps.newversion.outputs.newpure }}'
 
       - name: Commit and push updated files
         run: |
