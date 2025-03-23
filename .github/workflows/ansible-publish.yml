@@ -79,11 +79,9 @@ jobs:
       - name: Replace version in README.md and Galaxy.yml
         uses: richardrigutins/replace-in-files@v2
         with:
-          files: |
-            README.md
-            galaxy.yml
-          search-text: '${{ steps.newversion.outputs.old }}'
-          replacement-text: '${{ steps.newversion.outputs.newpure }}'
+          files: galaxy.yml
+          search-text: '0.0.4'
+          replacement-text: '0.0.5'
 
       - name: Show Galaxy.yml content
         run: |
