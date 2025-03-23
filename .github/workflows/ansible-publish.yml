@@ -21,19 +21,17 @@ jobs:
         run: |
           pip install ansible ansible-lint
 
-      - name: Generate versions
-        uses: HardNorth/github-version-generate@v1.4.0
+      - id: bump
+        uses: zwaldowski/match-label-action@v4
         with:
-          version-source: file
-          version-file: gradle.properties
-          version-file-extraction-pattern: '(?<=version=).+'
+          allowed: major,minor,patch
 
       - name: Replace single file
         uses: richardrigutins/replace-in-files@v2
         with:
           files: 'README.md'
           search-text: 'x.x.x'
-          replacement-text: '1.0.0'
+          replacement-text: ${{ steps.bump.outputs.match }}
 
       - uses: EndBug/add-and-commit@v9
         with:
