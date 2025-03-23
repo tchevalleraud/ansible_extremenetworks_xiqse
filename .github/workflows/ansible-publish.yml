@@ -35,12 +35,12 @@ jobs:
           echo "$commits" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Determine version bump
+      - name: Determine version bump from hashtags
         id: bump
         run: |
           bump="patch"
-          echo "${{ steps.commits.outputs.commits }}" | grep -q 'BREAKING CHANGE\|!:' && bump="major"
-          echo "${{ steps.commits.outputs.commits }}" | grep -q '^feat:' && bump="minor"
+          echo "${{ steps.commits.outputs.commits }}" | grep -qi '#major' && bump="major"
+          echo "${{ steps.commits.outputs.commits }}" | grep -qi '#minor' && bump="minor"
           echo "bump=$bump" >> $GITHUB_OUTPUT
 
       - name: Calculate new version
@@ -58,7 +58,7 @@ jobs:
           echo "new=$new" >> $GITHUB_OUTPUT
 
       - name: Show new version
-        run: echo "🔖 New version is ${{ steps.newversion.outputs.new }}"
+        run: echo "🔖 New version will be ${{ steps.newversion.outputs.new }}"
 
 #      - name: Build Ansible Collection
 #        run: |
