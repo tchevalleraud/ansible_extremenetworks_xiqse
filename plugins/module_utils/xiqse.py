@@ -67,13 +67,12 @@ class XIQSE:
         except requests.exceptions.RequestException as e:
             raise Exception(f"GraphQL request failed: {e}")
 
-def get_xiqse_provider_params(module):
-    provider = module.params.get("provider", {})
-    return {
-        "protocol": provider.get("protocol", "https"),
-        "host": provider["host"],
-        "port": provider.get("port", 8443),
-        "client_id": provider["client_id"],
-        "client_secret": provider["client_secret"],
-        "verify": provider.get("verify", True),
-    }
+def get_xiqse_provider_params():
+    return dict(type="dict", required=True, options=dict(
+        protocol        = dict(type="str", required=False, default="https"),
+        host            = dict(type="str", required=True),
+        port            = dict(type="int", required=False, default=8443),
+        client_id       = dict(type="str", required=True, no_log=True),
+        client_secret   = dict(type="str", required=True, no_log=True),
+        verify          = dict(type="bool", required=False, default=True),
+    ))
