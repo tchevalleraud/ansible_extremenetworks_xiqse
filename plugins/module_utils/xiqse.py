@@ -50,7 +50,7 @@ class XIQSE:
 
         url = f"{self.base_url()}/nbi/graphql"
         headers = {
-            "Authorization": f"Brearer {self.token}",
+            "Authorization": f"Bearer {self.token}",
             "Content-Type": "application/json"
         }
 
