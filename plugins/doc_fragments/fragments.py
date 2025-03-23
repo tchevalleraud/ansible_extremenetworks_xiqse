@@ -2,6 +2,14 @@
 # -*- coding: utf-8 -*-
 
 class ModuleDocFragment:
+    OPTIONS_IPADDRESS   = r"""
+      options:
+        ip_address:
+          description:
+            - Device IP Address
+          type: str
+          required: true
+    """
     OPTIONS_PROVIDER    = r"""
       options:
         provider:

@@ -9,17 +9,10 @@ author:
 short_description: TODO
 description:
   - TODO
-options:
-  ip_address:
-    description:
-      - Device IP Address
-    type: str
-    required: true
-  timeout:
-    description:
-      - Connection timeout in seconds.
-    type: int
-    default: 30
+extends_documentation_fragment:
+  - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_IPADDRESS
+  - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_PROVIDER
+  - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_TIMEOUT
 """
 
 EXAMPLES = r"""
