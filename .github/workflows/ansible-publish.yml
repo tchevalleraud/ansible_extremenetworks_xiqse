@@ -82,8 +82,8 @@ jobs:
           files: |
             README.md
             galaxy.yml
-          search: '${{ steps.newversion.outputs.old }}'
-          replace: '${{ steps.newversion.outputs.newpure }}'
+          search: '0.0.4'
+          replace: '0.0.5'
 
       - name: Show Galaxy.yml content
         run: |
