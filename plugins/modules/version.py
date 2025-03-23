@@ -12,6 +12,7 @@ description:
   - It is compatible with ExtremeCloudIQ - Site Engine.
 extends_documentation_fragment:
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_PROVIDER
+  - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_TIMEOUT
 """
 
 EXAMPLES = r"""
