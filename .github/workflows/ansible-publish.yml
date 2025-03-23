@@ -76,12 +76,17 @@ jobs:
           echo "🔖 New version is ${{ steps.newversion.outputs.newpure }}."
           echo "Search version is ${{ steps.newversion.outputs.old }}."
 
-      - name: Replace version in README.md and Galaxy.yml
+      - name: Replace version in README.md
         uses: richardrigutins/replace-in-files@v2
         with:
-          files: |
-            README.md
-            galaxy.yml
+          files: README.md
+          search-text: '${{ steps.newversion.outputs.old }}'
+          replacement-text: '${{ steps.newversion.outputs.newpure }}'
+
+      - name: Replace version in galaxy.yml
+        uses: richardrigutins/replace-in-files@v2
+        with:
+          files: galaxy.yml
           search-text: '${{ steps.newversion.outputs.old }}'
           replacement-text: '${{ steps.newversion.outputs.newpure }}'
 
