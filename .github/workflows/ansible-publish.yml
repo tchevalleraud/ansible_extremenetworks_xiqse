@@ -32,7 +32,16 @@ jobs:
       - name: Get commits since last tag
         id: commits
         run: |
-          commits=$(git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:"%s")
+          if git describe --tags --abbrev=0 >/dev/null 2>&1; then
+            last_tag=$(git describe --tags --abbrev=0)
+            range="$last_tag..HEAD"
+          else
+            last_tag=""
+            range="HEAD"
+          fi
+      
+          echo "tag=$last_tag" >> $GITHUB_OUTPUT
+          commits=$(git log $range --pretty=format:"%s")
           echo "commits<<EOF" >> $GITHUB_OUTPUT
           echo "$commits" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
@@ -48,7 +57,8 @@ jobs:
       - name: Calculate new version
         id: newversion
         run: |
-          old="${{ steps.lasttag.outputs.tag }}"
+          old="${{ steps.commits.outputs.tag }}"
+          [ -z "$old" ] && old="v0.0.0"
           echo "🔍 Last tag: $old"
           old=${old#v}
           IFS='.' read -r major minor patch <<< "$old"
