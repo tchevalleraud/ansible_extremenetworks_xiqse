@@ -20,7 +20,7 @@ options:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.tchevalleraud.extremenetworks.xiqse.plugins.module_utils.utils import get_auth_token, query_graphql
+from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.utils import get_auth_token, query_graphql
 
 def run_module():
     module_args = dict(
