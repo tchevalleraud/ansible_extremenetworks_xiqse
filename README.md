@@ -4,7 +4,7 @@ This collection provides Ansible modules and roles to manage ExtremeCloudIQ - Si
 
 ## Overview
 
-This collection, currently in version 0.0.5, includes:
+This collection, currently in version 0.0.4, includes:
 
 - **Module** :
   - `mutation` : Executing a query type mutation
