@@ -117,12 +117,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
-#      - name: Build Ansible Collection
-#        run: |
-#          ansible-galaxy collection build --output-path ./dist
+      - name: Build Ansible Collection
+        run: |
+          ansible-galaxy collection build --output-path ./dist
 
-#      - name: Publish Collection
-#        env:
-#          ANSIBLE_GALAXY_API_KEY: ${{ secrets.ANSIBLE_GALAXY_API_KEY }}
-#        run: |
-#          ansible-galaxy collection publish dist/*.tar.gz --api-key "$ANSIBLE_GALAXY_API_KEY"
+      - name: Publish Collection
+        env:
+          ANSIBLE_GALAXY_API_KEY: ${{ secrets.ANSIBLE_GALAXY_API_KEY }}
+        run: |
+          ansible-galaxy collection publish dist/*.tar.gz --api-key "$ANSIBLE_GALAXY_API_KEY"
