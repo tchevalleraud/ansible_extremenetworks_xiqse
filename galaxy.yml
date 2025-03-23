@@ -1,6 +1,10 @@
 namespace: tchevalleraud
 name: extremenetworks_xiqse
+<<<<<<< HEAD
 version: ""
+=======
+version: "1.0.0"
+>>>>>>> a4a960b (Update workflow)
 readme: README.md
 authors:
   - Thibault Chevalleraud
