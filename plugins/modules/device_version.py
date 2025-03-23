@@ -52,7 +52,7 @@ def run_module():
     timeout         = module.params["timeout"]
 
     query = """
-        query($deviceIp: String!) {
+        query DeviceFirmware($deviceIp: String!) {
           network {
             device(ip: $deviceIp){
               firmware
@@ -61,15 +61,9 @@ def run_module():
         }
     """
 
-    payload = {
-        "query": query,
-        "variables": {
-            "deviceIp": device_ip
-        }
-    }
+    payload = {"deviceIp": device_ip}
 
     try:
-        module.exit_json(changed=False, version=query)
         token = get_auth_token(xiqse_host, xiqse_client, xiqse_secret, xiqse_port, xiqse_protocol, xiqse_verify, timeout)
         result = query_graphql(xiqse_host, token, query, payload, xiqse_port, xiqse_protocol, xiqse_verify, timeout)
 
