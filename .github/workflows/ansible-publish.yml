@@ -9,11 +9,11 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetech-depth: 0
-      
+          fetch-depth: 0
+
       - name: Fetch all tags
         run: git fetch --tags
 
@@ -27,12 +27,6 @@ jobs:
 #          pip install ansible ansible-lint
 
       - name: Get last tag or fallback
-        id: lasttag
-        run: |
-          tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          echo "tag=$tag" >> $GITHUB_OUTPUT
-
-      - name: Get commits since last tag
         id: commits
         run: |
           if git describe --tags --abbrev=0 >/dev/null 2>&1; then
@@ -42,7 +36,7 @@ jobs:
             last_tag=""
             range="HEAD"
           fi
-      
+
           echo "tag=$last_tag" >> $GITHUB_OUTPUT
           commits=$(git log $range --pretty=format:"%s")
           echo "commits<<EOF" >> $GITHUB_OUTPUT
@@ -74,26 +68,37 @@ jobs:
           echo "new=$new" >> $GITHUB_OUTPUT
 
       - name: Show new version
-        run: |
-          echo "🔖 New version will be ${{ steps.commits.outputs.tag }}"
+        run: echo "🔖 New version is ${{ steps.newversion.outputs.new }}"
 
       - name: Replace version in README.md and Galaxy.yml
         uses: richardrigutins/replace-in-files@v2
         with:
           files: |
             README.md
-            galaxy.yml
+            Galaxy.yml
           search: '${{ steps.commits.outputs.tag }}'
           replace: '${{ steps.newversion.outputs.new }}'
 
-      - uses: EndBug/add-and-commit@v9
-        with:
-          default_author: github_actions
-
-      - name: Create new tag
+      - name: Commit and push updated files
         run: |
-          git tag ${{ steps.newversion.outputs.new }}
-          git push origin ${{ steps.newversion.outputs.new }}
+          git add README.md Galaxy.yml
+          if git diff --cached --quiet; then
+            echo "✅ No changes to commit."
+          else
+            git commit -m "chore: bump version to ${{ steps.newversion.outputs.new }}"
+            git push origin main
+          fi
+
+      - name: Create new tag (if not exists)
+        run: |
+          tag="${{ steps.newversion.outputs.new }}"
+          if git rev-parse "$tag" >/dev/null 2>&1; then
+            echo "⚠️ Tag $tag already exists. Skipping creation."
+          else
+            git tag "$tag"
+            git push origin "$tag"
+            echo "🏷️ Created and pushed tag $tag"
+          fi
 
 #      - name: Build Ansible Collection
 #        run: |
