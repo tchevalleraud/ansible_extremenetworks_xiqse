@@ -22,10 +22,11 @@ options:
 
 EXAMPLES = r"""
 - name: Retrieve version via API
-  version:
-    host: "192.168.1.1"
-    client_id: "RzNxMIxcj7"
-    client_secret: "6758749e-2bf3-4b6b-925f-ba599179b5fe"
+  tchevalleraud.extremenetworks_xiqse.version:
+    provider:
+        host: "192.168.1.1"
+        client_id: "RzNxMIxcj7"
+        client_secret: "6758749e-2bf3-4b6b-925f-ba599179b5fe"
   register: result
 
 - name: Display the version
