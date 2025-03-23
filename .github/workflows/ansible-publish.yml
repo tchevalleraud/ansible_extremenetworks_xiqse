@@ -71,7 +71,9 @@ jobs:
           echo "new=$new" >> $GITHUB_OUTPUT
 
       - name: Show new version
-        run: echo "🔖 New version will be ${{ steps.newversion.outputs.new }}"
+        run: |
+          echo "🔖 New version will be ${{ steps.commits.outputs.tag }}"
+          echo "🔖 Old version will be ${{ steps.newversion.outputs.new }}"
 
 #      - name: Build Ansible Collection
 #        run: |
