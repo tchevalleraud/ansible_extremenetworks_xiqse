@@ -57,15 +57,8 @@ def run_module():
         supports_check_mode=True
     )
 
-    provider        = module.params["provider"]
-    xiqse_protocol  = provider["protocol"]
-    xiqse_host      = provider["host"]
-    xiqse_port      = provider["port"]
-    xiqse_client    = provider["client_id"]
-    xiqse_secret    = provider["client_secret"]
-    xiqse_verify    = provider["verify"]
-    timeout         = module.params["timeout"]
-
+    provider    = module.params["provider"]
+    timeout     = module.params["timeout"]
     query = """
         query {
           administration {
@@ -77,8 +70,16 @@ def run_module():
     """
 
     try:
-        token = get_auth_token(xiqse_host, xiqse_client, xiqse_secret, xiqse_port, xiqse_protocol, xiqse_verify, timeout)
-        result = query_graphql(xiqse_host, token, query, {}, xiqse_port, xiqse_protocol, xiqse_verify, timeout)
+        xiqse   = XIQSE(
+            host=provider["host"],
+            client_id=provider["client_id"],
+            client_secret=provider["client_secret"],
+            port=provider["port"],
+            protocol=provider["protocol"],
+            validate_certs=provider["verify"],
+            timeout=timeout
+        )
+        result = xiqse.graphql(query)
 
         version = result.get("data", {}).get("administration", {}).get("serverInfo", {}).get("version", "Unknown")
         module.exit_json(changed=False, version=version)
