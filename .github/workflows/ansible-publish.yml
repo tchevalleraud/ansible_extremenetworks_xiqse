@@ -81,7 +81,7 @@ jobs:
 
       - name: Commit and push updated files
         run: |
-          git add README.md Galaxy.yml
+          git add README.md galaxy.yml
           if git diff --cached --quiet; then
             echo "✅ No changes to commit."
           else
