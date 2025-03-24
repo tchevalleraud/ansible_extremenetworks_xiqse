@@ -28,6 +28,7 @@ from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_util
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_site_path_params
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_state_bool_params
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_timeout_params
+from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import mutation_xiqse_create_site
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import query_xiqse_site
 
 def run_module():
@@ -65,12 +66,21 @@ def run_module():
         site    = result.get("data", {}).get("network", {}).get("siteByLocation", None)
 
         if state == "gathered":
-            module.exit_json(changed=False, msg=site)
+            if site:
+                module.exit_json(changed=False, msg="Site is exist.")
+            else:
+                module.exit_json(changed=False, msg="Site does not exist.")
 
         elif state == "present":
             if not site:
-                # TODO : Create site
-                module.exit_json(changed=True, msg="Site created.")
+                query   = query_xiqse_site()
+                result  = xiqse.graphql(query, payload)
+                status  = result.get("data", {}).get("network", {}).get("createSite", {}).get("status", "ERROR")
+
+                if status == "SUCCESS":
+                    module.exit_json(changed=True, msg="Site created.")
+                else:
+                    raise Exception("Error during site creation")
             else:
                 module.exit_json(changed=False, msg="Site already present.")
 

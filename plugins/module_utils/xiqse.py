@@ -92,6 +92,20 @@ def get_xiqse_state_status_params():
 def get_xiqse_timeout_params():
     return dict(type="int", required=False, default=30)
 
+def mutation_xiqse_create_site():
+    return """
+        mutation Site($sitePath: String!) {
+          network {
+            createSite(input: {
+              siteLocation: $sitePath
+            }) {
+              errorCode
+              status
+            }
+          }
+        }
+    """
+
 def query_device_version():
     return """
         query DeviceFirmware($deviceIp: String!) {
