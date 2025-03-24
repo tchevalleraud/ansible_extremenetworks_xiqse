@@ -73,8 +73,7 @@ def run_module():
 
         elif state == "present":
             if not site:
-                query   = query_xiqse_site()
-                result  = xiqse.graphql(query, payload)
+                result  = xiqse.graphql(query_xiqse_site(), payload)
                 status  = result.get("data", {}).get("network", {}).get("createSite", {}).get("status", "ERROR")
 
                 module.exit_json(changed=True, msg=result)
