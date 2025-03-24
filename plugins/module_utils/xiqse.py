@@ -92,7 +92,7 @@ def query_xiqse_site():
     return """
         query Site($sitePath: String!) {
           network {
-            siteByLocation(location: $siteName){
+            siteByLocation(location: $sitePath){
                 location
                 siteId
                 siteName
