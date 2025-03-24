@@ -77,6 +77,8 @@ def run_module():
                 result  = xiqse.graphql(query, payload)
                 status  = result.get("data", {}).get("network", {}).get("createSite", {}).get("status", "ERROR")
 
+                module.exit_json(changed=True, msg=result)
+
                 if status == "SUCCESS":
                     module.exit_json(changed=True, msg="Site created.")
                 else:
