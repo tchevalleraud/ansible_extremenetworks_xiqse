@@ -58,6 +58,7 @@ class ModuleDocFragment:
           description:
             - Full address of the rental you want.
           type: str
+          required: true
     """
     OPTIONS_STATE           = r"""
       options:
