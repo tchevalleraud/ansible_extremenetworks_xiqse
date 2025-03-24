@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 class ModuleDocFragment:
-    OPTIONS_IPADDRESS   = r"""
+    OPTIONS_IPADDRESS       = r"""
       options:
         ip_address:
           description:
@@ -10,7 +10,7 @@ class ModuleDocFragment:
           type: str
           required: true
     """
-    OPTIONS_PROVIDER    = r"""
+    OPTIONS_PROVIDER        = r"""
       options:
         provider:
           description:
@@ -52,7 +52,53 @@ class ModuleDocFragment:
               type: bool
               default: true
     """
-    OPTIONS_TIMEOUT     = r"""
+    OPTIONS_SITE_PATH       = r"""
+      options:
+        site_path:
+          description:
+            - Full address of the rental you want.
+          type: str
+    """
+    OPTIONS_STATE           = r"""
+      options:
+        state:
+          description:
+            - Desired state of the item.
+          type: str
+          default: gathered
+          choices:
+            - present
+            - absent
+            - replaced
+            - merged
+            - deleted
+            - gathered
+    """
+    OPTIONS_STATE_BOOL      = r"""
+      options:
+        state:
+          description:
+            - Desired state of the item.
+          type: str
+          default: gathered
+          choices:
+            - present
+            - absent
+            - gathered
+    """
+    OPTIONS_STATE_STATUS    = r"""
+      options:
+        state:
+          description:
+            - Desired state of the item.
+          type: str
+          default: gathered
+          choices:
+            - enabled
+            - diabled
+            - gathered
+    """
+    OPTIONS_TIMEOUT         = r"""
       options:
         timeout:
           description:

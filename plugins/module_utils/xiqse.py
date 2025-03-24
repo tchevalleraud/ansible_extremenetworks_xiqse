@@ -77,6 +77,21 @@ def get_xiqse_provider_params():
         verify          = dict(type="bool", required=False, default=True),
     ))
 
+def get_xiqse_site_path_params():
+    return dict(type="str", required=True)
+
+def get_xiqse_state_params():
+    return dict(type="str", choices=["present", "absent", "replaced", "merged", "deleted", "gathered"], default="gathered")
+
+def get_xiqse_state_bool_params():
+    return dict(type="str", choices=["present", "absent", "gathered"], default="gathered")
+
+def get_xiqse_state_status_params():
+    return dict(type="str", choices=["enabled", "disabled", "gathered"], default="gathered")
+
+def get_xiqse_timeout_params():
+    return dict(type="int", required=False, default=30)
+
 def query_device_version():
     return """
         query DeviceFirmware($deviceIp: String!) {

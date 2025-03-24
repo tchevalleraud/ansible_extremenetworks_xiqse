@@ -11,6 +11,8 @@ description:
   - TODO
 extends_documentation_fragment:
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_PROVIDER
+  - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_SITE_PATH
+  - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_STATE_BOOL
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_TIMEOUT
 """
 
@@ -23,14 +25,17 @@ RETURN = r"""
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import XIQSE
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_provider_params
+from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_site_path_params
+from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_state_bool_params
+from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_timeout_params
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import query_xiqse_site
 
 def run_module():
     module_args = dict(
         provider    = get_xiqse_provider_params(),
-        site_path   = dict(type="str", required=True),
-        state       = dict(type="str", choices=["query", "present", "absent"], default="query"),
-        timeout     = dict(type="int", required=False, default=30)
+        site_path   = get_xiqse_site_path_params(),
+        state       = get_xiqse_state_bool_params(),
+        timeout     = get_xiqse_timeout_params()
     )
 
     module = AnsibleModule(
@@ -56,14 +61,28 @@ def run_module():
             validate_certs=provider["verify"],
             timeout=timeout
         )
-        result = xiqse.graphql(query, payload)
+        result  = xiqse.graphql(query, payload)
+        site    = result.get("data", {}).get("network", {}).get("siteByLocation", None)
 
-        if state == "present":
-            module.exit_json(changed=False, msg="Present")
+        if state == "gathered":
+            module.exit_json(changed=False, msg=site)
+
+        elif state == "present":
+            if not site:
+                # TODO : Create site
+                module.exit_json(changed=True, msg="Site created.")
+            else:
+                module.exit_json(changed=False, msg="Site already present.")
+
         elif state == "absent":
-            module.exit_json(changed=False, msg="Absent")
+            if site:
+                # TODO : Delete site
+                module.exit_json(changed=True, msg="Site deleted.")
+            else:
+                module.exit_json(changed=False, msg="Site not present.")
+
         else:
-            module.exit_json(changed=False, msg=result)
+            raise Exception("This state is not supported.")
 
     except Exception as e:
         module.fail_json(msg=str(e))
