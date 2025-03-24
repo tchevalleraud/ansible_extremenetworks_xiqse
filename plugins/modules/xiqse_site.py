@@ -61,7 +61,7 @@ def run_module():
         elif state == "absent":
             module.exit_json(changed=False, msg="Absent")
         else:
-            module.exit_json(changed=False, msg="Query")
+            module.exit_json(changed=False, msg=result)
 
     except Exception as e:
         module.fail_json(msg=str(e))
