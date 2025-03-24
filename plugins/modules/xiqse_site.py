@@ -29,6 +29,7 @@ from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_util
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_state_bool_params
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_timeout_params
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import mutation_xiqse_create_site
+from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import mutation_xiqse_delete_site
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import query_xiqse_site
 
 def run_module():
@@ -67,9 +68,9 @@ def run_module():
 
         if state == "gathered":
             if site:
-                module.exit_json(changed=False, msg="Site is exist.")
+                module.exit_json(changed=False, msg="Site "+ site_path +" is exist.")
             else:
-                module.exit_json(changed=False, msg="Site does not exist.")
+                module.exit_json(changed=False, msg="Site "+ site_path +"  does not exist.")
 
         elif state == "present":
             if not site:
@@ -77,18 +78,23 @@ def run_module():
                 status  = result.get("data", {}).get("network", {}).get("createSite", {}).get("status", "ERROR")
 
                 if status == "SUCCESS":
-                    module.exit_json(changed=True, msg="Site created.")
+                    module.exit_json(changed=True, msg="Site "+ site_path +"  created.")
                 else:
                     raise Exception("Error during site creation")
             else:
-                module.exit_json(changed=False, msg="Site already present.")
+                module.exit_json(changed=False, msg="Site "+ site_path +"  already present.")
 
         elif state == "absent":
             if site:
-                # TODO : Delete site
-                module.exit_json(changed=True, msg="Site deleted.")
+                result  = xiqse.graphql(mutation_xiqse_delete_site(), payload)
+                status  = result.get("data", {}).get("network", {}).get("createSite", {}).get("status", "ERROR")
+
+                if status == "SUCCESS":
+                    module.exit_json(changed=True, msg="Site "+ site_path +"  deleted.")
+                else:
+                    raise Exception("Error during site deleting")
             else:
-                module.exit_json(changed=False, msg="Site not present.")
+                module.exit_json(changed=False, msg="Site "+ site_path +"  not present.")
 
         else:
             raise Exception("This state is not supported.")

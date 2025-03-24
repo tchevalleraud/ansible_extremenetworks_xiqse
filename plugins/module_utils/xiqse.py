@@ -106,6 +106,20 @@ def mutation_xiqse_create_site():
         }
     """
 
+def mutation_xiqse_delete_site():
+    return """
+        mutation Site($sitePath: String!) {
+          network {
+            deleteSite(input: {
+              siteLocation: $sitePath
+            }) {
+              errorCode
+              status
+            }
+          }
+        }
+    """
+
 def query_device_version():
     return """
         query DeviceFirmware($deviceIp: String!) {
