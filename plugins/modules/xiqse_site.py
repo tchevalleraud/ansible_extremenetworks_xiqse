@@ -10,7 +10,6 @@ short_description: TODO
 description:
   - TODO
 extends_documentation_fragment:
-  - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_IPADDRESS
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_PROVIDER
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_TIMEOUT
 """
@@ -28,7 +27,6 @@ from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_util
 
 def run_module():
     module_args = dict(
-        ip_address  = dict(type="str", required=True),
         provider    = get_xiqse_provider_params(),
         state       = dict(type="str", choices=["query", "present", "absent"], default="query"),
         timeout     = dict(type="int", required=False, default=30)
@@ -39,7 +37,6 @@ def run_module():
         supports_check_mode=True
     )
 
-    device_ip       = module.params["ip_address"]
     provider        = module.params["provider"]
     state           = module.params["state"]
     timeout         = module.params["timeout"]
