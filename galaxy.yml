@@ -1,6 +1,6 @@
 namespace: tchevalleraud
 name: extremenetworks_xiqse
-version: "1.0.30"
+version: "1.0.31"
 readme: README.md
 authors:
   - Thibault Chevalleraud
