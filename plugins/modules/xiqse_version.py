@@ -40,6 +40,7 @@ version:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import XIQSE
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_provider_params
+from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import query_xiqse_version
 
 def run_module():
     module_args = dict(
@@ -54,15 +55,7 @@ def run_module():
 
     provider    = module.params["provider"]
     timeout     = module.params["timeout"]
-    query = """
-        query {
-          administration {
-            serverInfo {
-              version
-            }
-          }
-        }
-    """
+    query       = query_xiqse_version()
 
     try:
         xiqse   = XIQSE(

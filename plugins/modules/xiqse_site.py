@@ -3,7 +3,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: device_version
+module: xiqse_site
 author:
   - Thibault Chevalleraud (@tchevalleraud)
 short_description: TODO
@@ -16,37 +16,21 @@ extends_documentation_fragment:
 """
 
 EXAMPLES = r"""
-- name: Retrieve device version via API
-  tchevalleraud.extremenetworks_xiase.device_version:
-    ip_address: "10.0.0.1"
-    provider:
-      host: "192.168.1.1"
-      client_id: "RzNxMIxcj7"
-      client_secret: "6758749e-2bf3-4b6b-925f-ba599179b5fe"
-  register: result
-
-- name: Display the version
-  ansible.builtin.debug:
-    msg: "Device version: {{ result.version }}"
 """
 
 RETURN = r"""
-version:
-  description: Detected device version.
-  returned: always
-  type: str
-  sample: "9.1.1.0_B008"
 """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import XIQSE
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_provider_params
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import query_device_version
+from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import query_xiqse_site
 
 def run_module():
     module_args = dict(
         ip_address  = dict(type="str", required=True),
         provider    = get_xiqse_provider_params(),
+        state       = dict(type="str", choices=["query", "present", "absent"], default="query"),
         timeout     = dict(type="int", required=False, default=30)
     )
 
@@ -57,10 +41,11 @@ def run_module():
 
     device_ip       = module.params["ip_address"]
     provider        = module.params["provider"]
+    state           = module.params["state"]
     timeout         = module.params["timeout"]
 
-    query   = query_device_version()
-    payload = {"deviceIp": device_ip}
+    query   = query_xiqse_site()
+    payload = {"sitePath": "/World/test"}
 
     try:
         xiqse   = XIQSE(
@@ -74,11 +59,15 @@ def run_module():
         )
         result = xiqse.graphql(query, payload)
 
-        version = result.get("data", {}).get("network", {}).get("device", {}).get("firmware", "Unknown")
-        module.exit_json(changed=False, version=version)
+        if state == "present":
+            module.exit_json(changed=False, msg="Present")
+        elif state == "absent":
+            module.exit_json(changed=False, msg="Absent")
+        else:
+            module.exit_json(changed=False, msg="Query")
+
     except Exception as e:
         module.fail_json(msg=str(e))
-
 def main():
     run_module()
 

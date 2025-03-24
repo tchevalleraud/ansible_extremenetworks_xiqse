@@ -76,3 +76,38 @@ def get_xiqse_provider_params():
         client_secret   = dict(type="str", required=True, no_log=True),
         verify          = dict(type="bool", required=False, default=True),
     ))
+
+def query_device_version():
+    return """
+        query DeviceFirmware($deviceIp: String!) {
+          network {
+            device(ip: $deviceIp){
+              firmware
+            }
+          }
+        }
+    """
+
+def query_xiqse_site():
+    return """
+        query Site($sitePath: String!) {
+          network {
+            siteByLocation(location: $siteName){
+                location
+                siteId
+                siteName
+            }
+          }
+        }
+    """
+
+def query_xiqse_version():
+    return """
+        query {
+          administration {
+            serverInfo {
+              version
+            }
+          }
+        }
+    """
