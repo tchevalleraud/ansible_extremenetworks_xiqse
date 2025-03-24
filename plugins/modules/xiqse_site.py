@@ -87,6 +87,8 @@ def run_module():
         elif state == "absent":
             if site:
                 result  = xiqse.graphql(mutation_xiqse_delete_site(), payload)
+                module.exit_json(changed=True, msg=result)
+                
                 status  = result.get("data", {}).get("network", {}).get("createSite", {}).get("status", "ERROR")
 
                 if status == "SUCCESS":
