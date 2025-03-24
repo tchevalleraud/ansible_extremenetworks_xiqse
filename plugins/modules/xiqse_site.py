@@ -28,6 +28,7 @@ from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_util
 def run_module():
     module_args = dict(
         provider    = get_xiqse_provider_params(),
+        site_path   = dict(type="str", required=True),
         state       = dict(type="str", choices=["query", "present", "absent"], default="query"),
         timeout     = dict(type="int", required=False, default=30)
     )
@@ -38,11 +39,12 @@ def run_module():
     )
 
     provider        = module.params["provider"]
+    site_path       = module.params["site_path"]
     state           = module.params["state"]
     timeout         = module.params["timeout"]
 
     query   = query_xiqse_site()
-    payload = {"sitePath": "/World/test"}
+    payload = {"sitePath": site_path}
 
     try:
         xiqse   = XIQSE(
