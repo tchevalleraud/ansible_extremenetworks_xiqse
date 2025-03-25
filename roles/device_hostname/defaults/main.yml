@@ -1,0 +1,4 @@
+---
+xiqse_port: 8443
+xiqse_protocol: https
+xiqse_verify: True
