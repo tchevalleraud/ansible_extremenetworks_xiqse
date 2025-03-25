@@ -11,6 +11,7 @@ description:
   - This module allows you to execute the query provided by the user in the GraphQL API of XIQ-SE
   - It is compatible with ExtremeCloudIQ - Site Engine.
 extends_documentation_fragment:
+  - tchevalleraud.extremenetworks_xiqse.fragments.DOC_XIQSE_COMPATIBILITY
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_PROVIDER
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_QUERY
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_TIMEOUT
