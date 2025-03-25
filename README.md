@@ -7,9 +7,11 @@ This collection provides Ansible modules and roles to manage ExtremeCloudIQ - Si
 This collection, currently in version 1.0.48, includes:
 
 - **Module** :
-  - `mutation` : Executing a query type mutation
-  - `query`: Executing a query type query
-  - `version`: Get the version of XIQ-SE
+  - `device_version`: Get the version of device via XIQ-SE API 
+  - `xiqse_mutation` : Executing a query type mutation
+  - `xiqse_query`: Executing a query type query
+  - `xiqse_site`: Allows site management within XIQ-SE
+  - `xiqse_version`: Get the version of XIQ-SE
 
 ## Getting Started
 
