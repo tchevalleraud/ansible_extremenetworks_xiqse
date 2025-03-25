@@ -52,6 +52,14 @@ class ModuleDocFragment:
               type: bool
               default: true
     """
+    OPTIONS_QUERY           = r"""
+      options:
+        query:
+          description:
+            - GraphQL query for XIQ-SE
+          type: str
+          required: true
+    """
     OPTIONS_SITE_PATH       = r"""
       options:
         site_path:

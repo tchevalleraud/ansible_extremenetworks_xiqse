@@ -77,6 +77,9 @@ def get_xiqse_provider_params():
         verify          = dict(type="bool", required=False, default=True),
     ))
 
+def get_xiqse_query_params():
+    return dict(type="str", required=True)
+
 def get_xiqse_site_path_params():
     return dict(type="str", required=True)
 
