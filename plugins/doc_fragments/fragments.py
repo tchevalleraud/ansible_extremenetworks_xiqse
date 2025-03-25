@@ -2,10 +2,6 @@
 # -*- coding: utf-8 -*-
 
 class ModuleDocFragment:
-    DOC_XIQSE_COMPATIBILITY = r"""
-      description:
-        - It is compatible with ExtremeCloudIQ - Site Engine.
-    """
     OPTIONS_IPADDRESS       = r"""
       options:
         ip_address:

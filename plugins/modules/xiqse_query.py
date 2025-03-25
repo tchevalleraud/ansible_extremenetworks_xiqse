@@ -11,13 +11,31 @@ description:
   - This module allows you to execute the query provided by the user in the GraphQL API of XIQ-SE
   - It is compatible with ExtremeCloudIQ - Site Engine.
 extends_documentation_fragment:
-  - tchevalleraud.extremenetworks_xiqse.fragments.DOC_XIQSE_COMPATIBILITY
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_PROVIDER
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_QUERY
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_TIMEOUT
 """
 
 EXAMPLES = r"""
+- name: Custom query for XIQ-SE
+  tchevalleraud.extremenetworks_xiqse.xiqse_query:
+  query: |
+    query {
+      administration {
+        serverInfo {
+          upTime
+          version
+        }
+      }
+    }
+  provider:
+    host: "{{ ansible_host }}"
+    client_id: "{{ xiqse_client }}"
+    client_secret: "{{ xiqse_secret }}"
+  register: result
+  
+- name: Display result
+  var: result
 """
 
 RETURN = r"""
