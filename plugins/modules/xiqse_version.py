@@ -3,7 +3,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: version
+module: xiqse_version
 author:
   - Thibault Chevalleraud (@tchevalleraud)
 short_description: Retrieves the XIQ-SE system version

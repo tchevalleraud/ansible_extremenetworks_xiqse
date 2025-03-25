@@ -77,23 +77,15 @@ error:
   sample: "Error during site creation."
 """
 
-
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import XIQSE
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_provider_params
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_site_path_params
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_state_bool_params
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_timeout_params
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import mutation_xiqse_create_site
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import mutation_xiqse_delete_site
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import query_xiqse_site
 
 def run_module():
     module_args = dict(
-        provider    = get_xiqse_provider_params(),
-        site_path   = get_xiqse_site_path_params(),
-        state       = get_xiqse_state_bool_params(),
-        timeout     = get_xiqse_timeout_params()
+        provider    = XIQSE.params.get_provider(),
+        site_path   = XIQSE.params.get_sitePath(),
+        state       = XIQSE.params.get_state(),
+        timeout     = XIQSE.params.get_timeout()
     )
 
     module = AnsibleModule(
@@ -106,7 +98,7 @@ def run_module():
     state           = module.params["state"]
     timeout         = module.params["timeout"]
 
-    query   = query_xiqse_site()
+    query   = XIQSE.query.network_siteByLocation()
     payload = {"sitePath": site_path}
 
     try:
@@ -133,7 +125,7 @@ def run_module():
 
         elif state == "present":
             if not site:
-                result  = xiqse.graphql(mutation_xiqse_create_site(), payload)
+                result  = xiqse.graphql(XIQSE.mutation.network_createSite(), payload)
                 status  = result.get("data", {}).get("network", {}).get("createSite", {}).get("status", "ERROR")
 
                 if status == "SUCCESS":
@@ -151,7 +143,7 @@ def run_module():
 
         elif state == "absent":
             if site:
-                result  = xiqse.graphql(mutation_xiqse_delete_site(), payload)
+                result  = xiqse.graphql(XIQSE.mutation.network_deleteSite(), payload)
                 status  = result.get("data", {}).get("network", {}).get("deleteSite", {}).get("status", "ERROR")
 
                 if status == "SUCCESS":
