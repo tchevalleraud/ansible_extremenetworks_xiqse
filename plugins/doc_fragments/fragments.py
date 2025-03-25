@@ -10,6 +10,14 @@ class ModuleDocFragment:
           type: str
           required: true
     """
+    OPTIONS_MUTATION        = r"""
+      options:
+        mutation:
+          description:
+            - GraphQL mutation for XIQ-SE
+          type: str
+          required: true
+    """
     OPTIONS_PROVIDER        = r"""
       options:
         provider:

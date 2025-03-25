@@ -67,6 +67,9 @@ class XIQSE:
         except requests.exceptions.RequestException as e:
             raise Exception(f"GraphQL request failed: {e}")
 
+def get_xiqse_mutation_params():
+    return dict(type="str", required=True)
+
 def get_xiqse_provider_params():
     return dict(type="dict", required=True, options=dict(
         protocol        = dict(type="str", required=False, default="https"),
