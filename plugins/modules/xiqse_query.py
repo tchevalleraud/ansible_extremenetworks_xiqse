@@ -8,7 +8,7 @@ author:
   - Thibault Chevalleraud (@tchevalleraud)
 short_description: Ansible module that allows you to run a GraphQL query in XIQ-SE
 description:
-  - This module allows you to execute the query provided by the user in the GraphQL API of XIQ-SE
+  - This module allows you to execute the query provided by the user in the GraphQL API of XIQ-SE.
   - It is compatible with ExtremeCloudIQ - Site Engine.
 extends_documentation_fragment:
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_PROVIDER
@@ -17,40 +17,61 @@ extends_documentation_fragment:
 """
 
 EXAMPLES = r"""
-- name: Custom query for XIQ-SE
+- name: Execute a GraphQL query in XIQ-SE
   tchevalleraud.extremenetworks_xiqse.xiqse_query:
-  query: |
-    query {
-      administration {
-        serverInfo {
-          upTime
-          version
+    query: |
+      query {
+        administration {
+          serverInfo {
+            upTime
+            version
+          }
         }
       }
-    }
-  provider:
-    host: "{{ ansible_host }}"
-    client_id: "{{ xiqse_client }}"
-    client_secret: "{{ xiqse_secret }}"
+    provider:
+      host: "{{ ansible_host }}"
+      client_id: "{{ xiqse_client }}"
+      client_secret: "{{ xiqse_secret }}"
   register: result
-  
-- name: Display result
-  var: result
+
+- name: Display the result
+  ansible.builtin.debug:
+    var: result
 """
 
 RETURN = r"""
+result:
+  description: The full response returned by the GraphQL API of XIQ-SE.
+  returned: always
+  type: dict
+  sample:
+    data:
+      administration:
+        serverInfo:
+          upTime: "10234"
+          version: "22.5.1.3"
+
+changed:
+  description: Indicates if the query caused any changes. Always `false` since this is a read-only operation.
+  returned: always
+  type: bool
+  sample: false
+
+msg:
+  description: Message detailing any errors encountered.
+  returned: on failure
+  type: str
+  sample: "GraphQL query failed: Invalid request syntax."
 """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import XIQSE
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_provider_params
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_query_params
 
 def run_module():
     module_args = dict(
-        provider    = get_xiqse_provider_params(),
-        query       = get_xiqse_query_params(),
-        timeout     = dict(type="int", required=False, default=30)
+        provider    = XIQSE.params.get_provider(),
+        query       = XIQSE.params.get_query(),
+        timeout     = XIQSE.params.get_timeout()
     )
 
     module = AnsibleModule(

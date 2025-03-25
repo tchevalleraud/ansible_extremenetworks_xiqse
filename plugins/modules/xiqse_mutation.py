@@ -17,42 +17,63 @@ extends_documentation_fragment:
 """
 
 EXAMPLES = r"""
-- name: Custom query for XIQ-SE
+- name: Execute a GraphQL mutation in XIQ-SE
   tchevalleraud.extremenetworks_xiqse.xiqse_mutation:
-  mutation: |
-    mutation {
-      network {
-        createSite(input: {
-          siteLocation: "/World/test"
-        }) {
-          errorCode
-          status
+    mutation: |
+      mutation {
+        network {
+          createSite(input: {
+            siteLocation: "/World/test"
+          }) {
+            errorCode
+            status
+          }
         }
       }
-    }
-  provider:
-    host: "{{ ansible_host }}"
-    client_id: "{{ xiqse_client }}"
-    client_secret: "{{ xiqse_secret }}"
+    provider:
+      host: "{{ ansible_host }}"
+      client_id: "{{ xiqse_client }}"
+      client_secret: "{{ xiqse_secret }}"
   register: result
-  
-- name: Display result
-  var: result
+
+- name: Display the result
+  ansible.builtin.debug:
+    var: result
 """
 
 RETURN = r"""
+result:
+  description: The full response returned by the GraphQL API of XIQ-SE.
+  returned: always
+  type: dict
+  sample:
+    data:
+      network:
+        createSite:
+          errorCode: 0
+          status: "SUCCESS"
+
+changed:
+  description: Indicates if the mutation caused any changes. Always `false` since mutations are external operations.
+  returned: always
+  type: bool
+  sample: false
+
+msg:
+  description: Message detailing any errors encountered.
+  returned: on failure
+  type: str
+  sample: "GraphQL mutation failed: Invalid site location."
 """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import XIQSE
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_mutation_params
-from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import get_xiqse_provider_params
 
 def run_module():
     module_args = dict(
-        mutation    = get_xiqse_mutation_params(),
-        provider    = get_xiqse_provider_params(),
-        timeout     = dict(type="int", required=False, default=30)
+        mutation    = XIQSE.params.get_mutation(),
+        provider    = XIQSE.params.get_provider(),
+        timeout     = XIQSE.params.get_timeout()
     )
 
     module = AnsibleModule(

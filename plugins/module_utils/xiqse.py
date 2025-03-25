@@ -67,96 +67,152 @@ class XIQSE:
         except requests.exceptions.RequestException as e:
             raise Exception(f"GraphQL request failed: {e}")
 
-def get_xiqse_mutation_params():
-    return dict(type="str", required=True)
-
-def get_xiqse_provider_params():
-    return dict(type="dict", required=True, options=dict(
-        protocol        = dict(type="str", required=False, default="https"),
-        host            = dict(type="str", required=True),
-        port            = dict(type="int", required=False, default=8443),
-        client_id       = dict(type="str", required=True, no_log=True),
-        client_secret   = dict(type="str", required=True, no_log=True),
-        verify          = dict(type="bool", required=False, default=True),
-    ))
-
-def get_xiqse_query_params():
-    return dict(type="str", required=True)
-
-def get_xiqse_site_path_params():
-    return dict(type="str", required=True)
-
-def get_xiqse_state_params():
-    return dict(type="str", choices=["present", "absent", "replaced", "merged", "deleted", "gathered"], default="gathered")
-
-def get_xiqse_state_bool_params():
-    return dict(type="str", choices=["present", "absent", "gathered"], default="gathered")
-
-def get_xiqse_state_status_params():
-    return dict(type="str", choices=["enabled", "disabled", "gathered"], default="gathered")
-
-def get_xiqse_timeout_params():
-    return dict(type="int", required=False, default=30)
-
-def mutation_xiqse_create_site():
-    return """
-        mutation Site($sitePath: String!) {
-          network {
-            createSite(input: {
-              siteLocation: $sitePath
-            }) {
-              errorCode
-              status
+    class mutation:
+        @staticmethod
+        def network_createSite():
+          return """
+            mutation Site($sitePath: String!) {
+              network {
+                createSite(input: {
+                  siteLocation: $sitePath
+                }) {
+                  errorCode
+                  siteId
+                  siteLocation
+                  status
+                }
+              }
             }
-          }
-        }
-    """
+          """
 
-def mutation_xiqse_delete_site():
-    return """
-        mutation Site($sitePath: String!) {
-          network {
-            deleteSite(input: {
-              siteLocation: $sitePath
-            }) {
-              errorCode
-              status
+        @staticmethod
+        def network_deleteSite():
+          return """
+            mutation Site($sitePath: String!) {
+              network {
+                deleteSite(input: {
+                  siteLocation: $sitePath
+                }) {
+                  errorCode
+                  siteId
+                  siteLocation
+                  status
+                }
+              }
             }
-          }
-        }
-    """
+          """
 
-def query_device_version():
-    return """
-        query DeviceFirmware($deviceIp: String!) {
-          network {
-            device(ip: $deviceIp){
-              firmware
-            }
-          }
-        }
-    """
 
-def query_xiqse_site():
-    return """
-        query Site($sitePath: String!) {
-          network {
-            siteByLocation(location: $sitePath){
-                location
-                siteId
-                siteName
+        @staticmethod
+        def network_readDevices():
+            return """
+            mutation DeviceRead($ipAddress: String!) {
+              network {
+                readDevices(input: {
+                  devices: {
+                    ipAddress: $ipAddress
+                  }
+                }){
+                  errorCode
+                  status
+                }
+              }
             }
-          }
-        }
-    """
+          """
 
-def query_xiqse_version():
-    return """
-        query {
-          administration {
-            serverInfo {
-              version
+    class query:
+        @staticmethod
+        def administration_serverInfo_version():
+          return """
+            query {
+              administration {
+                serverInfo {
+                  version
+                }
+              }
             }
-          }
-        }
-    """
+          """
+
+        @staticmethod
+        def network_device_firmware():
+          return """
+            query DeviceFirmware($deviceIp: String!) {
+              network {
+                device(ip: $deviceIp){
+                  firmware
+                }
+              }
+            }
+          """
+
+        @staticmethod
+        def network_siteByLocation():
+          return """
+            query Site($sitePath: String!) {
+              network {
+                siteByLocation(location: $sitePath){
+                    location
+                    siteId
+                    siteName
+                }
+              }
+            }
+          """
+
+    class params:
+        @staticmethod
+        def get_ipAddress():
+            return dict(type="str", required=True)
+
+        @staticmethod
+        def get_mutation():
+            return dict(type="str", required=True)
+
+        @staticmethod
+        def get_provider():
+            return dict(
+                type="dict", required=True, options=dict(
+                    protocol=dict(type="str", required=False, default="https"),
+                    host=dict(type="str", required=True),
+                    port=dict(type="int", required=False, default=8443),
+                    client_id=dict(type="str", required=True, no_log=True),
+                    client_secret=dict(type="str", required=True, no_log=True),
+                    verify=dict(type="bool", required=False, default=True),
+                )
+            )
+
+        @staticmethod
+        def get_query():
+            return dict(type="str", required=True)
+
+        @staticmethod
+        def get_sitePath():
+            return dict(type="str", required=True)
+
+        @staticmethod
+        def get_state():
+            return dict(
+                type="str",
+                choices=["present", "absent", "replaced", "merged", "deleted", "gathered"],
+                default="gathered"
+            )
+
+        @staticmethod
+        def get_state_bool():
+            return dict(
+                type="str",
+                choices=["present", "absent", "gathered"],
+                default="gathered"
+            )
+
+        @staticmethod
+        def get_state_status():
+            return dict(
+                type="str",
+                choices=["enabled", "disabled", "gathered"],
+                default="gathered"
+            )
+
+        @staticmethod
+        def get_timeout():
+            return dict(type="int", required=False, default=30)

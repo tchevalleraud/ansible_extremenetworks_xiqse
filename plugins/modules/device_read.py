@@ -3,12 +3,12 @@
 
 DOCUMENTATION = r"""
 ---
-module: device_version
+module: device_read
 author:
   - Thibault Chevalleraud (@tchevalleraud)
-short_description: Retrieves version information of a device via XIQ-SE.
+short_description: Performs synchronization between the equipment and XIQ-SE.
 description:
-  - This module allows the collection of equipment versions via the XIQ-SE GraphQL API.
+  - This module performs synchronization between a device and XIQ-SE.
   - It is compatible with ExtremeCloudIQ - Site Engine.
 extends_documentation_fragment:
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_IPADDRESS
@@ -17,38 +17,37 @@ extends_documentation_fragment:
 """
 
 EXAMPLES = r"""
-- name: Retrieve device version via API
-  tchevalleraud.extremenetworks_xiqse.device_version:
-    ip_address: "10.0.0.1"
+- name: Synchronize device configuration with XIQ-SE
+  tchevalleraud.extremenetworks_xiqse.device_read:
+    ip_address: "{{ ansible_host }}"
     provider:
-      host: "192.168.1.1"
-      client_id: "your_client_id"
-      client_secret: "your_client_secret"
-  register: result
+      host: "{{ xiqse_host }}"
+      client_id: "{{ xiqse_client }}"
+      client_secret: "{{ xiqse_secret }}"
 
-- name: Display the version
-  ansible.builtin.debug:
-    msg: "Device version: {{ result.version }}"
+- name: Allow time for XIQ-SE to finish synchronizing
+  ansible.builtin.wait_for:
+    timeout: 10
 """
 
 RETURN = r"""
-version:
-  description: The firmware version of the device.
+msg:
+  description: The status message indicating whether the synchronization was successful or failed.
   returned: always
   type: str
-  sample: "9.1.1.0_B008"
+  sample: "Synchronization in progress for x.x.x.x."
 
 changed:
-  description: Indicates if the module caused a change. Always `false` since this is a read-only operation.
+  description: Indicates if the synchronization request has been successfully sent.
   returned: always
   type: bool
-  sample: false
+  sample: true
 
-msg:
-  description: Message detailing any errors encountered.
-  returned: on failure
+error:
+  description: Error message if the synchronization request fails.
+  returned: when an error occurs
   type: str
-  sample: "Failed to retrieve device version: Authentication error."
+  sample: "Unable to sync device x.x.x.x."
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -70,8 +69,8 @@ def run_module():
     provider        = module.params["provider"]
     timeout         = module.params["timeout"]
 
-    query   = XIQSE.query.network_device_firmware()
-    payload = {"deviceIp": ip_address}
+    query   = XIQSE.mutation.network_readDevices()
+    payload = {"ipAddress": ip_address}
 
     try:
         xiqse   = XIQSE(
@@ -84,9 +83,12 @@ def run_module():
             timeout=timeout
         )
         result = xiqse.graphql(query, payload)
+        status = result.get("data", {}).get("network", {}).get("readDevices", {}).get("status", "ERROR")
 
-        version = result.get("data", {}).get("network", {}).get("device", {}).get("firmware", "Unknown")
-        module.exit_json(changed=False, version=version)
+        if status == "SUCCESS":
+            module.exit_json(changed=True, msg="Synchronization in progress for "+ip_address+".")
+        else:
+            raise Exception("Unable to sync device "+ip_address+".")
     except Exception as e:
         module.fail_json(msg=str(e))
 
