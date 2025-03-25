@@ -48,7 +48,6 @@ EXAMPLES = r"""
       client_secret: "{{ xiqse_secret }}"
 """
 
-
 RETURN = r"""
 msg:
   description: Status message indicating the outcome of the operation.
@@ -63,8 +62,8 @@ changed:
   sample: true
 
 site:
-  description: Information about the site when `state: gathered`.
-  returned: when `state: gathered`
+  description: Information about the site when state is "gathered".
+  returned: when site is gathered
   type: dict
   sample:
     location: "/World/test"
@@ -76,6 +75,7 @@ error:
   type: str
   sample: "Error during site creation."
 """
+
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import XIQSE
