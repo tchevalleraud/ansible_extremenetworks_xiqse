@@ -1,6 +1,6 @@
 # Ansible Collection - Extreme Networks XIQ-SE
 
-This collection provides Ansible modules and roles to manage ExtremeCloudIQ - Site Engine via a custom API client.
+This collection provides Ansible modules and roles to manage ExtremeCloudIQ - Site Engine via a custom API client
 
 ## Overview
 
