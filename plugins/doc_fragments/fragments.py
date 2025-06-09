@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*-
 
 class ModuleDocFragment:
+    NOTES_DUAL              = r"""
+      notes:
+        - It is possible to run this module on the inventory if we specify the `delegate_to` to the value `localhost`
+        - It is possible to run this module directly on the XIQ-SE server, it is enough that it runs locally, without specifying the `delegate_to` in the tasks
+    """
     OPTIONS_IPADDRESS       = r"""
       options:
         ip_address:
