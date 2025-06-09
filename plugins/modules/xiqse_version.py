@@ -34,6 +34,18 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
+changed:
+  description: Indicates if the module caused a change. Always `false` since this is a read-only operation.
+  returned: always
+  type: bool
+  sample: false
+  
+failed:
+  description: Indicates if the module failed.
+  returned: failure
+  type: bool
+  sample: false
+
 version:
   description: Detected xiqse version.
   returned: always

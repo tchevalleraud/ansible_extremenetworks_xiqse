@@ -17,38 +17,60 @@ extends_documentation_fragment:
 """
 
 EXAMPLES = r"""
-- name: Retrieve device version via API
-  tchevalleraud.extremenetworks_xiqse.device_version:
-    ip_address: "10.0.0.1"
-    provider:
-      host: "192.168.1.1"
-      client_id: "your_client_id"
-      client_secret: "your_client_secret"
-  register: result
+- name: Playbook to display the version of inventory device
+  hosts: voss_devices
+  gather_facts: no
+  tasks:
+    - name: Execute a GraphQL query to get the version
+      tchevalleraud.extremenetworks_xiqse.device_version:
+        ip_address: "{{ ansible_host }}"
+        provider:
+          host: "10.0.0.254"
+          client_id: "xxxxxxxxxx"
+          client_secret: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxxx"
+      delegate_to: localhost
+      register: result
 
-- name: Display the version
-  ansible.builtin.debug:
-    msg: "Device version: {{ result.version }}"
+    - name: Displaying the Device version
+      ansible.builtin.debug:
+        msg: "{{ result.version }}"
+
+- name: Playbook to display the version of a specific device
+  hosts: xiqse_api
+  gather_facts: no
+  tasks:
+    - name: Execute a GraphQL query to get the version
+      tchevalleraud.extremenetworks_xiqse.device_version:
+        ip_address: "10.0.0.11"
+        provider:
+          host: "10.0.0.254"
+          client_id: "xxxxxxxxxx"
+          client_secret: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxxx"
+      register: result
+
+    - name: Displaying the Device version
+      ansible.builtin.debug:
+        msg: "{{ result.version }}"
 """
 
 RETURN = r"""
-version:
-  description: The firmware version of the device.
-  returned: always
-  type: str
-  sample: "9.1.1.0_B008"
-
 changed:
   description: Indicates if the module caused a change. Always `false` since this is a read-only operation.
   returned: always
   type: bool
   sample: false
 
-msg:
-  description: Message detailing any errors encountered.
-  returned: on failure
+failed:
+  description: Indicates if the module failed.
+  returned: failure
+  type: bool
+  sample: false
+
+version:
+  description: The firmware version of the device.
+  returned: always
   type: str
-  sample: "Failed to retrieve device version: Authentication error."
+  sample: "9.1.1.0_B008"
 """
 
 from ansible.module_utils.basic import AnsibleModule
