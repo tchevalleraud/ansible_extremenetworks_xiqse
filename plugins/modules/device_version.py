@@ -11,7 +11,6 @@ description:
   - This module allows the collection of equipment versions via the XIQ-SE GraphQL API.
   - It is compatible with ExtremeCloudIQ - Site Engine.
 extends_documentation_fragment:
-  - tchevalleraud.extremenetworks_xiqse.fragments.NOTES_DUAL
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_IPADDRESS
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_PROVIDER
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_TIMEOUT
