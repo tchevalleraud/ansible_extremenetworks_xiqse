@@ -1,0 +1,18 @@
+- name: Playbook to display the version of Fabric Engine Device
+  hosts: voss_devices
+  gather_facts: no
+  tasks:
+    - name: Execute a GraphQL query to get the version
+      tchevalleraud.extremenetworks_xiqse.device_version:
+        ip_address: "{{ ansible_host }}"
+        provider:
+          host: "{{ xiqse_host }}"
+          client_id: "{{ xiqse_client }}"
+          client_secret: "{{ xiqse_secret }}"
+          verify: "{{ xiqse_verify }}"
+      delegate_to: localhost
+      register: result
+
+    - name: Displaying the Device version
+      ansible.builtin.debug:
+        msg: "{{ result.version }}"

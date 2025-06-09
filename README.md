@@ -38,9 +38,15 @@ ansible-galaxy collection install tchevalleraud-extremenetworks_xiqse-1.2.2.tar.
 
 ## Usage Examples
 
-### Modules
+Find all our examples here with the environment configuration :
 
-* [Get the version of XIQ-SE](https://github.com/tchevalleraud/ansible_extremenetworks_xiqse/blob/main/examples/get-xiqse-version.yml)
+* [Environment configuration](https://github.com/tchevalleraud/ansible_extremenetworks_xiqse/blob/main/examples/README.md)
+
+
+* **Device Module** :
+  * [Show device version](https://github.com/tchevalleraud/ansible_extremenetworks_xiqse/blob/main/examples/pb.device-version.yaml)
+* **XIQ-SE Module** :
+  * [Show XIQ-SE version](https://github.com/tchevalleraud/ansible_extremenetworks_xiqse/blob/main/examples/pb.xiqse-version.yaml)
 
 ## Documentation
 

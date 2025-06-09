@@ -1,0 +1,6 @@
+ansible_user: rwa
+ansible_password: rwa
+xiqse_host: 10.0.0.254
+xiqse_client: <CLIENT_ID>
+xiqse_secret: <CLIENT_SECRET>
+xiqse_verify: false

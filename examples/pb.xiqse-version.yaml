@@ -1,0 +1,16 @@
+- name: Playbook to display the version of XIQ-SE
+  hosts: xiqse_api
+  gather_facts: no
+  tasks:
+    - name: Execute a GraphQL query to get the version
+      tchevalleraud.extremenetworks_xiqse.xiqse_version:
+        provider:
+          host: "{{ xiqse_host }}"
+          client_id: "{{ xiqse_client }}"
+          client_secret: "{{ xiqse_secret }}"
+          verify: "{{ xiqse_verify }}"
+      register: result
+
+    - name: Displaying the XIQ-SE version
+      ansible.builtin.debug:
+        msg: "{{ result.version }}"

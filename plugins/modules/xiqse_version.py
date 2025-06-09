@@ -16,17 +16,21 @@ extends_documentation_fragment:
 """
 
 EXAMPLES = r"""
-- name: Retrieve version via API
-  tchevalleraud.extremenetworks_xiqse.version:
-    provider:
-      host: "192.168.1.1"
-      client_id: "RzNxMIxcj7"
-      client_secret: "6758749e-2bf3-4b6b-925f-ba599179b5fe"
-  register: result
+- name: Playbook to display the version of XIQ-SE
+  hosts: xiqse_api
+  gather_facts: no
+  tasks:
+    - name: Execute a GraphQL query to get the version
+      tchevalleraud.extremenetworks_xiqse.xiqse_version:
+        provider:
+          host: "10.0.0.254"
+          client_id: "xxxxxxxxxx"
+          client_secret: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxxx"
+      register: result
 
-- name: Display the version
-  debug:
-    msg: "XIQ-SE version: {{ result.version }}"
+    - name: Displaying the XIQ-SE version
+      ansible.builtin.debug:
+        msg: "XIQ-SE version: {{ result.version }}"
 """
 
 RETURN = r"""
