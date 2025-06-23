@@ -69,6 +69,30 @@ class XIQSE:
 
     class mutation:
         @staticmethod
+        def network_addDevice():
+          return """
+          mutation Device($deviceIp: String!, $profileName: String!, $sitePath: String!) {
+            network	{
+              createDevices(input: {
+                devices: {
+                  ipAddress: $deviceIp
+                  profileName: $profileName
+                  siteLocation: $sitePath
+                }
+              }){
+                results {
+                  deviceId
+                  ipAddress
+                  message
+                  seriallNumber
+                  status
+                }
+              }
+            }
+          }
+          """
+
+        @staticmethod
         def network_createSite():
           return """
             mutation Site($sitePath: String!) {
@@ -179,6 +203,10 @@ class XIQSE:
 
         @staticmethod
         def get_mutation():
+            return dict(type="str", required=True)
+        
+        @staticmethod
+        def get_profile_name():
             return dict(type="str", required=True)
 
         @staticmethod
