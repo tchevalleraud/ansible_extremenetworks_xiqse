@@ -146,6 +146,19 @@ class XIQSE:
           """
 
         @staticmethod
+        def network_sites():
+          return """
+            query {
+              network {
+                sites {
+                  location
+                  siteName
+                }
+              }
+            }
+          """
+
+        @staticmethod
         def network_siteByLocation():
           return """
             query Site($sitePath: String!) {

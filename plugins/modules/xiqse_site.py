@@ -158,6 +158,7 @@ def run_module():
 
     except Exception as e:
         module.fail_json(msg=str(e))
+
 def main():
     run_module()
 
