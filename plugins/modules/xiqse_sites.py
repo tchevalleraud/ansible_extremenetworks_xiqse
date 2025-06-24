@@ -50,7 +50,7 @@ def run_module():
     provider        = module.params["provider"]
     timeout         = module.params["timeout"]
 
-    query   = XIQSE.query.network_sites()
+    query   = XIQSE.query.network.sites()
 
     try:
         xiqse   = XIQSE(
