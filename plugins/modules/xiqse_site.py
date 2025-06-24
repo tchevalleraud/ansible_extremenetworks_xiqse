@@ -125,7 +125,7 @@ def run_module():
 
         elif state == "present":
             if not site:
-                result  = xiqse.graphql(XIQSE.mutation.network.createSite(), payload)
+                result  = xiqse.graphql(XIQSE.mutation.network_createSite(), payload)
                 status  = result.get("data", {}).get("network", {}).get("createSite", {}).get("status", "ERROR")
 
                 if status == "SUCCESS":
@@ -143,7 +143,7 @@ def run_module():
 
         elif state == "absent":
             if site:
-                result  = xiqse.graphql(XIQSE.mutation.network.deleteSite(), payload)
+                result  = xiqse.graphql(XIQSE.mutation.network_deleteSite(), payload)
                 status  = result.get("data", {}).get("network", {}).get("deleteSite", {}).get("status", "ERROR")
 
                 if status == "SUCCESS":
