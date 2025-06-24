@@ -21,7 +21,11 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-TODO
+failed:
+  description: Indicates if the module failed.
+  returned: failure
+  type: bool
+  sample: false
 """
 
 from ansible.module_utils.basic import AnsibleModule

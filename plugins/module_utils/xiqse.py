@@ -143,7 +143,6 @@ class XIQSE:
             }
           """
 
-
         @staticmethod
         def network_readDevices():
             return """
