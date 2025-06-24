@@ -93,6 +93,23 @@ class XIQSE:
           """
 
         @staticmethod
+        def network_enforceAllDevices():
+          return """
+            mutation Device($ipAddress: String!) {
+              network	{
+                configureDevice(input: {
+                  enforceAll: true
+                  deviceConfig: {
+                    ipAddress: $ipAddress
+                  }
+                }){
+                  status
+                }
+              }
+            }          
+          """
+
+        @staticmethod
         def network_createSite():
           return """
             mutation Site($sitePath: String!) {
