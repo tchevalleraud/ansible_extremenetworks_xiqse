@@ -161,56 +161,105 @@ class XIQSE:
           """
 
     class query:
-        @staticmethod
-        def administration_serverInfo_version():
-          return """
-            query {
-              administration {
-                serverInfo {
-                  version
+        
+        class administration:
+
+            @staticmethod
+            def serverInfo():
+              return """
+                query {
+                  administration {
+                    serverInfo {
+                      uptime
+                      version
+                    }
+                  }
+                }
+              """
+
+            @staticmethod
+            def serverInfo_version():
+              return """
+                query {
+                  administration {
+                    serverInfo {
+                      version
+                    }
+                  }
+                }
+              """
+
+        class network:
+          
+          @staticmethod
+          def devices():
+            return """
+              query {
+                network {
+                  devices {
+                    ip
+                    sysName
+                    sitePath
+                  }
                 }
               }
-            }
-          """
+            """
 
-        @staticmethod
-        def network_device_firmware():
-          return """
-            query DeviceFirmware($deviceIp: String!) {
-              network {
-                device(ip: $deviceIp){
-                  firmware
-                }
-              }
-            }
-          """
-
-        @staticmethod
-        def network_sites():
-          return """
-            query {
-              network {
-                sites {
-                  location
-                  siteName
-                }
-              }
-            }
-          """
-
-        @staticmethod
-        def network_siteByLocation():
-          return """
-            query Site($sitePath: String!) {
-              network {
-                siteByLocation(location: $sitePath){
+          @staticmethod
+          def sites():
+            return """
+              query {
+                network {
+                  sites {
                     location
-                    siteId
                     siteName
+                  }
                 }
               }
-            }
-          """
+            """
+
+          class device:
+            @staticmethod
+            def byIp():
+              return """
+                query Device($ipAddress: String!) {
+                  network {
+                    device(ip: $ipAddress){
+                      firmware
+                      ip
+                      sysName
+                      sitePath
+                    }
+                  }
+                }
+              """
+
+            @staticmethod
+            def getFirmware():
+              return """
+                query Device($ipAddress: String!) {
+                  network {
+                    device(ip: $ipAddress){
+                      firmware
+                    }
+                  }
+                }
+            """
+
+          class site:
+            @staticmethod
+            def byLocation():
+              return """
+                query Site($sitePath: String!) {
+                  network {
+                    siteByLocation(location: $sitePath){
+                      location
+                      siteName
+                    }
+                  }
+                }
+              """
+
 
     class params:
         @staticmethod

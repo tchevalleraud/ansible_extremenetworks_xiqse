@@ -69,7 +69,7 @@ def run_module():
 
     provider    = module.params["provider"]
     timeout     = module.params["timeout"]
-    query       = XIQSE.query.administration_serverInfo_version()
+    query       = XIQSE.query.administration.serverInfo_version()
 
     try:
         xiqse   = XIQSE(

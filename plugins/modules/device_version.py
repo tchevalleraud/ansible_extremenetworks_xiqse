@@ -92,7 +92,7 @@ def run_module():
     provider        = module.params["provider"]
     timeout         = module.params["timeout"]
 
-    query   = XIQSE.query.network_device_firmware()
+    query   = XIQSE.query.network.device.getFirmware()
     payload = {"deviceIp": ip_address}
 
     try:
