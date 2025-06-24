@@ -1,6 +1,26 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+DOCUMENTATION = r"""
+---
+module: xiqse_add_device
+author:
+  - Thibault Chevalleraud (@tchevalleraud)
+short_description: @TODO
+description:
+  - This module performs synchronization between a device and XIQ-SE.
+  - It is compatible with ExtremeCloudIQ - Site Engine.
+extends_documentation_fragment:
+  - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_PROVIDER
+  - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_TIMEOUT
+"""
+
+EXAMPLES = r"""
+"""
+
+RETURN = r"""
+"""
+
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import XIQSE
 
