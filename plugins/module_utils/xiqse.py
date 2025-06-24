@@ -219,6 +219,7 @@ class XIQSE:
             """
 
           class device:
+            
             @staticmethod
             def byIp():
               return """

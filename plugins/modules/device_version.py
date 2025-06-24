@@ -107,7 +107,8 @@ def run_module():
         )
         result = xiqse.graphql(query, payload)
 
-        version = result.get("data", {}).get("network", {}).get("device", {}).get("firmware", "Unknown")
+        #version = result.get("data", {}).get("network", {}).get("device", {}).get("firmware", "Unknown")
+        version = result
         module.exit_json(changed=False, version=version)
     except Exception as e:
         module.fail_json(msg=str(e))
