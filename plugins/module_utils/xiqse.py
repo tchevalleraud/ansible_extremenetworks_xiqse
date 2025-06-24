@@ -244,7 +244,7 @@ class XIQSE:
                     }
                   }
                 }
-            """
+              """
 
           class site:
             @staticmethod
