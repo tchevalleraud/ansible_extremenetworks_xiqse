@@ -47,7 +47,7 @@ def run_module():
     provider        = module.params["provider"]
     timeout         = module.params["timeout"]
 
-    query   = XIQSE.mutation.network_enforceDevices()
+    query   = XIQSE.mutation.network_enforceAllDevices()
     payload = {"ipAddress": ip_address}
 
     try:
