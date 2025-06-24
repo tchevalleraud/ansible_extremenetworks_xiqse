@@ -16,9 +16,21 @@ extends_documentation_fragment:
 """
 
 EXAMPLES = r"""
+- name: Add a device to XIQ-SE
 """
 
 RETURN = r"""
+failed:
+  description: Indicates if the module failed.
+  returned: failure
+  type: bool
+  sample: false
+
+result:
+  description: The result of the add device operation.
+  returned: always
+  type: dict
+  sample: {}
 """
 
 from ansible.module_utils.basic import AnsibleModule

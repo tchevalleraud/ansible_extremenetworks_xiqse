@@ -1,6 +1,38 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+DOCUMENTATION = r"""
+---
+module: xiqse_sites
+author:
+  - Thibault Chevalleraud (@tchevalleraud)
+short_description: @TODO
+description:
+  - This module performs synchronization between a device and XIQ-SE.
+  - It is compatible with ExtremeCloudIQ - Site Engine.
+extends_documentation_fragment:
+  - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_PROVIDER
+  - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_TIMEOUT
+"""
+
+EXAMPLES = r"""
+- name: Playbook to display the version of XIQ-SE
+"""
+
+RETURN = r"""
+failed:
+  description: Indicates if the module failed.
+  returned: failure
+  type: bool
+  sample: false
+
+sites:
+  description: The list of sites.
+  returned: always
+  type: list
+  sample: []
+"""
+
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.tchevalleraud.extremenetworks_xiqse.plugins.module_utils.xiqse import XIQSE
 
