@@ -93,7 +93,7 @@ def run_module():
     timeout         = module.params["timeout"]
 
     query   = XIQSE.query.network.device.getFirmware()
-    payload = {"deviceIp": ip_address}
+    payload = {"ipAddress": ip_address}
 
     try:
         xiqse   = XIQSE(
@@ -107,8 +107,7 @@ def run_module():
         )
         result = xiqse.graphql(query, payload)
 
-        #version = result.get("data", {}).get("network", {}).get("device", {}).get("firmware", "Unknown")
-        version = result
+        version = result.get("data", {}).get("network", {}).get("device", {}).get("firmware", "Unknown")
         module.exit_json(changed=False, version=version)
     except Exception as e:
         module.fail_json(msg=str(e))
