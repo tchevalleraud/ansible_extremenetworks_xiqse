@@ -6,9 +6,9 @@ DOCUMENTATION = r"""
 module: xiqse_sites
 author:
   - Thibault Chevalleraud (@tchevalleraud)
-short_description: @TODO
+short_description: Get the list of sites from XIQ-SE.
 description:
-  - This module performs synchronization between a device and XIQ-SE.
+  - This module retrieves the list of sites from XIQ-SE.
   - It is compatible with ExtremeCloudIQ - Site Engine.
 extends_documentation_fragment:
   - tchevalleraud.extremenetworks_xiqse.fragments.OPTIONS_PROVIDER
@@ -16,7 +16,21 @@ extends_documentation_fragment:
 """
 
 EXAMPLES = r"""
-- name: Playbook to display the version of XIQ-SE
+- name: Playbook for sync sites with XIQ-SE
+  hosts: xiqse_api
+  gather_facts: no
+  tasks:
+    - name: Retrieve existing sites from XIQ-SE
+      tchevalleraud.extremenetworks_xiqse.xiqse_sites:
+        provider:
+          host: "{{ xiqse_host }}"
+          client_id: "{{ xiqse_client }}"
+          client_secret: "{{ xiqse_secret }}"
+      register: result
+
+    - name: Extract existing site paths
+      set_fact:
+        existing_site_paths: "{{ result.sites | map(attribute='location') | list }}"
 """
 
 RETURN = r"""
